@@ -1,6 +1,6 @@
-module.exports = {
-	Alliance: {
-		WHITE: 'w',
-		BLACK: 'b'
-	}
+const Alliance = {
+	WHITE: 'w',
+	BLACK: 'b'
 }
+
+module.exports.Alliance = Alliance
