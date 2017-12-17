@@ -3,35 +3,36 @@ const typejs = require('./../type')
 
 const Type = typejs.Type
 const Piece = piecejs.Piece
+const SlidingPiece = piecejs.SlidingPiece
 
 const Bishop = {
 	moveOffsets: [
-		{rowOffset: -1, colOffset: 1},
-		{rowOffset: -1, colOffset: -1},
-		{rowOffset: 1, colOffset: 1},
-		{rowOffset: 1, colOffset: -1}
+		{row: -1, col: 1},
+		{row: -1, col: -1},
+		{row: 1, col: 1},
+		{row: 1, col: -1}
 	],
 
-	create: function(index, alliance) {
-		const obj = Piece.create(index, alliance)
+	create: function(row, col, alliance) {
+		const obj = SlidingPiece.create(row, col, alliance)
 		obj.type = Type.BISHOP
 		return obj
 	},
 
 	pseudoLegalMoves: function(board) {
-		return Piece.slidingPiecePseudoLegalMoves(board, this)
+		return this.slidingPiecePseudoLegalMoves(board)
 	}
 }
 
 /*
 
-X-----X-
--X---X--
---X-X---
+x-----x-
+-x---x--
+--x-x---
 ---o----
---X-X---
--X---X--
-X-----X-
--------X
+--x-x---
+-x---x--
+x-----x-
+-------x
 
 */

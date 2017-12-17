@@ -1,8 +1,9 @@
 const Piece = {
-	create: function(index, alliance) {
+	create: function(row, col, alliance) {
 		const obj = Object.create(this)
 
-		obj.index = index
+		obj.row = row
+		obj.col = col
 		obj.alliance = alliance
 
 		return obj
@@ -17,38 +18,41 @@ const Piece = {
 	}
 }
 
-const slidingPiecePseudoLegalMoves = function(board, movedPiece) {
-	const moves = []
+const SlidingPiece = {
+	create: function(row, col, alliance) {
+		return Piece.create(row, col, alliance)
+	},
 
-	movedPiece.moveOffsets.forEach(offset => {
-		let destRow = utilsjs.row(movedPiece.index) + offset.rowOffset
-		let destCol = utilsjs.col(movedPiece.index) + offset.colOffset
-		let destIndex = utilsjs.indexFromCoordinates(destRow, destCol)
+	slidingPiecePseudoLegalMoves: function(board) {
+		const moves = []
 
-		let facedAPiece = false
+		this.moveOffsets.forEach(offset => {
+			let destRow = this.row + offset.row
+			let destCol = this.col + offset.col
 
-		while (utilsjs.areValidCoordinates(destRow, destCol) && !facedAPiece) {
-			const destTile = board.get(destIndex)
+			while (utilsjs.areValidCoordinates(destRow, destCol)) {
+				const destTile = board.get(destRow, destCol)
 
-			if (destTile.empty) {
-				moves.push(RegularMove.create(board, destIndex, movedPiece))
-			}
-			else {
-				const destPiece = destTile.piece
-
-				if (destPiece.alliance !== movedPiece.alliance) {
-					moves.push(AttackingMove.create(board, destIndex, movedPiece, destPiece))
+				if (destTile.empty) {
+					moves.push(RegularMove.create(board, destRow, destCol, this))
 				}
-				facedAPiece = true
+				else {
+					const destPiece = destTile.piece
+
+					if (destPiece.alliance !== movedPiece.alliance) {
+						moves.push(AttackingMove.create(board, destRow, destCol, this, destPiece))
+					}
+					break
+				}
+
+				destRow += offset.row
+				destCol += offset.col
 			}
+		})
 
-			destRow += offset.rowOffset
-			destCol += offset.colOffset
-			destIndex = utilsjs.indexFromCoordinates(destRow, destCol)
-		}
-	})
-
-	return moves
+		return moves
+	}
 }
 
 module.exports.Piece = Piece
+module.exports.SlidingPiece = SlidingPiece

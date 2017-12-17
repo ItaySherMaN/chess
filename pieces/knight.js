@@ -10,18 +10,18 @@ const AttackingMove = movejs.AttackingMove
 
 const Knight = {
 	moveOffsets: [
-		{rowOffset: 2, colOffset: 1},
-		{rowOffset: 2, colOffset: -1},
-		{rowOffset: 1, colOffset: 2},
-		{rowOffset: 1, colOffset: -2},
-		{rowOffset: -1, colOffset: 2},
-		{rowOffset: -1, colOffest: -2},
-		{rowOffset: -2, colOffset: 1},
-		{rowOffset: -2, colOffset: -1}
+		{row: 2, col: 1},
+		{row: 2, col: -1},
+		{row: 1, col: 2},
+		{row: 1, col: -2},
+		{row: -1, col: 2},
+		{row: -1, col: -2},
+		{row: -2, col: 1},
+		{row: -2, col: -1}
 	],
 
-	create: function(index, alliance) {
-		const obj = Piece.create(index, alliance)
+	create: function(row, col, alliance) {
+		const obj = Piece.create(row, col, alliance)
 		obj.type = Type.KNIGHT
 		return obj
 	}
@@ -30,21 +30,20 @@ const Knight = {
 		const moves = []
 
 		Knight.moveOffsets.forEach(offset => {
-			const destRow = utilsjs.row(this.index) + offset.rowOffset
-			const destCol = utilsjs.col(this.index) + offset.colOffset
-			const destIndex = utilsjs.indexFromCoordinates(destRow, destCol)
+			const destRow = this.row + offset.row
+			const destCol = this.col + offset.col
 
 			if (utilsjs.areValidCoordinates(destRow, destCol)) {
-				const destTile = board.get(destIndex)
+				const destTile = board.get(destRow, destCol)
 
 				if (destTile.empty) {
-					moves.push(RegularMove.create(board, destIndex, this))
+					moves.push(RegularMove.create(board, destRow, destCol, this))
 				}
 				else {
 					const destPiece = destTile.piece
 
 					if (destPiece.alliance !== this.alliance) {
-						moves.push(AttackingMove.create(board, destIndex, this, destPiece))
+						moves.push(AttackingMove.create(board, destRow, destCol, this, destPiece))
 					}
 				}
 			}
@@ -57,11 +56,11 @@ module.exports.Knight = Knight
 /*
 
 --------
---X-X---
--X---X--
+--x-x---
+-x---x--
 ---o----
--X---X--
---X-X---
+-x---x--
+--x-x---
 --------
 --------
 

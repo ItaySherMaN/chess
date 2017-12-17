@@ -8,9 +8,18 @@ const Piece = piecejs.Piece
 const Alliance = alliancejs.Alliance
 
 const Pawn = {
-	create: function(index, alliance) {
-		const obj = Piece.create(index, alliance)
+	moveOffsets: [
+		{row: 1, col: 0},
+		{row: 1, col: 1},
+		{row: 1, col: -1}
+	],
+
+	create: function(row, col, alliance) {
+		const obj = Piece.create(row, col, alliance)
+
 		obj.type = Type.PAWN
+		obj.isFirstMove = true
+
 		return obj
 	},
 
@@ -18,20 +27,18 @@ const Pawn = {
 		const moves = []
 		const dir = Alliance.direction(alliance)
 
-		let destIndex
+		let destRow, destCol
 
 		this.moveOffsets.forEach(offset => {
-			const destRow = utilsjs.row(this.index) + offset.row * dir
-			const destCol = utilsjs.col(this.index) + offset.col
-
-			destIndex = utilsjs.index(destRow, destCol)
+			destRow = this.row + offset.row * dir
+			destCol = this.col + offset.col
 
 			if (utilsjs.areValidCoordinates(destRow, destCol)) {
-				const destTile = board.get(destIndex)
+				const destTile = board.get(destRow, destCol)
 
 				if (offset.colOffset === 0) {
 					if (destTile.empty) {
-						moves.push(RegularMove.create(board, destIndex, this))
+						moves.push(RegularPawnMove.create(board, destRow, destCol, this))
 					}
 				}
 				else {
@@ -39,18 +46,19 @@ const Pawn = {
 						const destPiece = destTile.piece
 
 						if (destPiece.alliance !== this.alliance) {
-							moves.push(AttackingMove.create(board, destIndex, this, destPiece))
+							moves.push(AttackingPawnMove.create(board, destRow, destCol, this, destPiece))
 						}
 					}
 				}
 			}
 		})
 
-		if (utilsjs.row(this.index) === Alliance.startingRow(this.alliance)) {
-			destIndex = index + 16 * dir
+		if (this.isFirstMove && this.row === Alliance.startingRow(this.alliance)) {
+			destRow = this.row + 2 * dir
+			destCol = this.col
 
-			if (board.get(destIndex).empty) {
-				moves.push(RegularMove.create(board, destIndex, this))
+			if (board.get(destRow - dir, destCol).empty && board.get(destRow, destCol).empty) {
+				moves.push(RegularMove.create(board, destRow, destCol, this))
 			}
 		}
 

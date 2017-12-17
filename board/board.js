@@ -1,4 +1,5 @@
 const alliancejs = require('./../alliance')
+const utilsjs = require('./../utils')
 
 const Alliance = alliancejs.Alliance
 
@@ -29,6 +30,10 @@ const Board = {
 		// TODO: fill function
 
 		return newBoard
+	},
+
+	get: function(row, col) {
+		return this.tiles[utilsjs.indexFromCoordinates(row, col)]
 	}
 }
 
