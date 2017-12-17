@@ -1,6 +1,11 @@
 const piecejs = require('./piece')
-const Type = piecejs.Type,
-	  Piece = piecejs.Piece
+const typejs = require('./../type')
+const movejs = require('./../board/move')
+
+const Type = typejs.Type
+const Piece = piecejs.Piece
+const RegularMove = movejs.RegularMove
+const AttackingMove = movejs.AttackingMove
 
 const Knight = {
 	moveOffsets: [-17, -15, -10, -6, 6, 10, 15, 17],
@@ -20,20 +25,25 @@ const Knight = {
 		Knight.moveOffsets.forEach(offset => {
 			destIndex = this.index + offset
 
-			if (utils.isValidPosition(this.index + offset)) {
+			if (utils.isValidPosition(destIndex)) {
 				if (isValidOffset(offset, this.index)) {
 					destTile = board.get(destIndex)
+					destPiece = destTile.piece
 
 					if (destTile.empty) {
-						moves.push(move.create(/*TODO: add parameters*/))
+						moves.push(RegularMove.create(board, destIndex, this))
 					}
-					else {
-						if (destTile.piece.alliance != this.alliance) {
-							moves.push(move.create(/*TODO: add parameters*/))
-						}
+					else if (destPiece.alliance != this.alliance) {
+						moves.push(AttackingMove.create(board, destIndex, this, destPiece))
 					}
 				}
 			}
+		})
+	},
+
+	legalMoves: function(board) {
+		return this.pseudoLegalMoves().filter(move => {
+			return !board.play(move).isCheck()
 		})
 	}
 }
@@ -64,6 +74,8 @@ const in = function(value, array) {
 
 	return false
 }
+
+module.exports.Knight = Knight
 
 
 //--X-X---
