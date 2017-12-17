@@ -1,4 +1,10 @@
-const index = (row, col) => row * 8 + col
-const row = index => index / 8
-const col = index => index % 8
-const isValidPosition = index => index >= 0 && index < 64
+const boardjs = require('./board/board')
+
+const Board = boardjs.Board
+
+module.exports = {
+	index: (row, col) => row * Board.COLS + col,
+	row: index => index / Board.COLS,
+	col: index => index % Board.ROWS,
+	isValidPosition: index => index >= 0 && index < Board.NUM_TILES
+}
