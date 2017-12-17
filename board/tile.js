@@ -1,3 +1,6 @@
+const boardjs = require('./board')
+const Board = boardjs.Board
+
 const Tile = {
 	_create: function(index) {
 		let obj = Object.create(this)
@@ -5,30 +8,38 @@ const Tile = {
 		return obj
 	},
 
-	createEmpty: function(index) {
+	create: function(index, piece) {
+		return piece == null ? this.emptyTiles[index] : OccupiedTile.create(index, piece)
+	}
+}
+
+const EmptyTile = {
+	create: function(index) {
 		const obj = Tile._create(index)
 		obj.empty = true
 		return obj
-	},
+	}
+}
 
-	createOccupied: function(index, piece) {
+const OccupiedTile = {
+	create: function(index, piece) {
 		const obj = Tile._create(index)
+
 		obj.empty = false
 		obj.piece = piece
-		return obj
-	},
 
-	create: function(index, piece) {
-		return piece == null ? this.emptyTiles[index] : this.createOccupied(index, piece)
+		return obj
 	}
 }
 
 Tile.emptyTiles = (function () {
 	const emptyTiles = []
 
-	for (let i = 0; i < 64; i++) {
-		emptyTiles.push(Tile.createEmpty(i))
+	for (let i = 0; i < Board.NUM_TILES; i++) {
+		emptyTiles.push(EmptyTile.create(i))
 	}
 
 	return emptyTiles
 })()
+
+module.exports.Tile = Tile
