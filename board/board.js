@@ -18,25 +18,44 @@ const Rook = rookjs.Rook
 const Queen = queenjs.Queen
 const King = kingjs.King
 
-// The Board.print() function:
-//
-// _______________________________________
-//  wr | wk | wb | wK | wq | wb | wk | wr
-// ____|____|____|____|____|____|____|____
-//  wp | wp | wp | wp | wp | wp | wp | wp
-// ____|____|____|____|____|____|____|____
-//     |    |    |    |    |    |    |
-// ____|____|____|____|____|____|____|____
-//     |    |    |    |    |    |    |
-// ____|____|____|____|____|____|____|____
-//     |    |    |    |    |    |    |
-// ____|____|____|____|____|____|____|____
-//     |    |    |    |    |    |    |
-// ____|____|____|____|____|____|____|____
-//  bp | bp | bp | bp | bp | bp | bp | bp
-// ____|____|____|____|____|____|____|____
-//  br | bk | bb | bK | bq | bb | bk | br
-// ____|____|____|____|____|____|____|____
+// Board.whiteView() =
+// _______________________________
+//  r | n | b | q | k | b | n | r
+// ___|___|___|___|___|___|___|___
+//  p | p | p | p | p | p | p | p
+// ___|___|___|___|___|___|___|___
+//    |   |   |   |   |   |   |
+// ___|___|___|___|___|___|___|___
+//    |   |   |   |   |   |   |
+// ___|___|___|___|___|___|___|___
+//    |   |   |   |   |   |   |
+// ___|___|___|___|___|___|___|___
+//    |   |   |   |   |   |   |
+// ___|___|___|___|___|___|___|___
+//  P | P | P | P | P | P | P | P
+// ___|___|___|___|___|___|___|___
+//  R | N | B | Q | K | B | N | R
+// ___|___|___|___|___|___|___|___
+
+const calculateTiles = builder => {
+	const tiles = new Array(utilsjs.NUM_TILES)
+
+	for (let i = 0; i < utilsjs.NUM_TILES; i++) {
+		tiles[i] = Tile.create(i, null)
+	}
+
+	builder.whiteConfig.forEach(piece => {
+		const index = utilsjs.index(piece.row, piece.col)
+		tiles[index] = Tile.create(index, piece)
+	})
+
+	builder.blackConfig.forEach(piece => {
+		const index = utilsjs.index(piece.row, piece.col)
+		tiles[index] = Tile.create(index, piece)
+	})
+
+	return tiles
+}
 
 const Board = {
 	create: function(builder) {
@@ -45,19 +64,7 @@ const Board = {
 		obj.turn = builder.turn
 		obj.whitePieces = builder.whiteConfig
 		obj.blackPieces = builder.blackConfig
-		obj.tiles = new Array(utilsjs.NUM_TILES)
-					.fill(null)
-					.map((value, index) => Tile.create(index, value))
-
-		builder.whiteConfig.forEach(piece => {
-			const index = utilsjs.index(piece.row, piece.col)
-			obj.tiles[index] = Tile.create(index, piece)
-		})
-
-		builder.blackConfig.forEach(piece => {
-			const index = utilsjs.index(piece.row, piece.col)
-			obj.tiles[index] = Tile.create(index, piece)
-		})
+		obj.tiles = calculateTiles(builder)
 
 		return obj
 	},
@@ -74,89 +81,54 @@ const Board = {
 		return this.tiles[utilsjs.index(row, col)]
 	},
 
-	printWhiteView: function() {
-		console.log('_______________________________________')
+	whiteView: function() {
+		let result = '_______________________________\n'
 
-		const seperation = '____|____|____|____|____|____|____|____'
-		let msg = ''
+		const seperation = '\n___|___|___|___|___|___|___|___\n'
 
 		let i, j
 
 		for (i = 7; i >= 0; i--) {
 			for (j = 0; j < 8; j++) {
-				const tile = this.tiles[utilsjs.index(i, j)]
+				result += ' ' + this.tiles[utilsjs.index(i, j)].toString() + ' '
 
-				if (j === 7) {
-					if (tile.empty) {
-						msg += '    '
-					}
-					else {
-						msg += ' ' + tile.piece.alliance + tile.piece.type + ' '
-					}
-
-					console.log(msg)
-					console.log(seperation)
-
-					msg = ''
-				}
-				else {
-					if (tile.empty) {
-						msg += '    |'
-					}
-					else {
-						msg += ' ' + tile.piece.alliance + tile.piece.type + ' |'
-					}
+				if (j !== 7) {
+					result += '|'
 				}
 			}
+
+			result += seperation
 		}
 
-		console.log()
+		return result
 	},
 
-	printBlackView: function() {
-		console.log('_______________________________________')
+	blackView: function() {
+		let result = '_______________________________\n'
 
-		const seperation = '____|____|____|____|____|____|____|____'
-		let msg = ''
+		const seperation = '\n___|___|___|___|___|___|___|___\n'
 
 		let i, j
 
 		for (i = 0; i < 8; i++) {
 			for (j = 7; j >= 0; j--) {
-				const tile = this.tiles[utilsjs.index(i, j)]
+				result += ' ' + this.tiles[utilsjs.index(i, j)].toString() + ' '
 
-				if (j === 0) {
-					if (tile.empty) {
-						msg += '    '
-					}
-					else {
-						msg += ' ' + tile.piece.alliance + tile.piece.type + ' '
-					}
-
-					console.log(msg)
-					console.log(seperation)
-
-					msg = ''
-				}
-				else {
-					if (tile.empty) {
-						msg += '    |'
-					}
-					else {
-						msg += ' ' + tile.piece.alliance + tile.piece.type + ' |'
-					}
+				if (j !== 0) {
+					result += '|'
 				}
 			}
+
+			result += seperation
 		}
 
-		console.log()
+		return result
 	}
 }
 
 const BoardBuilder = {
 	create: function() {
 		const obj = Object.create(this)
-		// obj.config = new Array(utilsjs.NUM_TILES).fill(null)
 		obj.whiteConfig = []
 		obj.blackConfig = []
 		obj.turn = Alliance.WHITE
@@ -170,7 +142,6 @@ const BoardBuilder = {
 		else {
 			this.blackConfig.push(piece)
 		}
-		// this.config[utilsjs.index(piece.row, piece.col)] = piece
 	},
 
 	build: function() {
