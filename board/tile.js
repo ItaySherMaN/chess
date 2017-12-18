@@ -11,6 +11,10 @@ const Tile = {
 
 	create: function(index, piece) {
 		return piece == null ? this.emptyTiles[index] : OccupiedTile.create(index, piece)
+	},
+
+	toString: function() {
+		return this.piece ? this.piece.toString() : ' '
 	}
 }
 
@@ -19,6 +23,10 @@ const EmptyTile = {
 		const obj = Tile._create(index)
 		obj.empty = true
 		return obj
+	},
+
+	toString: function() {
+		return ' '
 	}
 }
 
@@ -30,6 +38,10 @@ const OccupiedTile = {
 		obj.piece = piece
 
 		return obj
+	},
+
+	toString: function() {
+		return this.piece.toString()
 	}
 }
 

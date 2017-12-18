@@ -1,3 +1,7 @@
+const alliancejs = require('./../alliance')
+
+const Alliance = alliancejs.Alliance
+
 const Piece = {
 	create: function(row, col, alliance) {
 		const obj = Object.create(this)
@@ -7,6 +11,10 @@ const Piece = {
 		obj.alliance = alliance
 
 		return obj
+	},
+
+	toString: function() {
+		return this.alliance === Alliance.WHITE ? this.type : this.type.toLowerCase()
 	},
 
 	legalMoves: function(board) {
