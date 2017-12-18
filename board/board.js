@@ -10,6 +10,7 @@ const kingjs = require('./../pieces/king')
 
 const Alliance = alliancejs.Alliance
 const Tile = tilejs.Tile
+const EmptyTile = tilejs.EmptyTile
 const Pawn = pawnjs.Pawn
 const Knight = knightjs.Knight
 const Bishop = bishopjs.Bishop
@@ -42,15 +43,21 @@ const Board = {
 		const obj = Object.create(this)
 
 		obj.turn = builder.turn
-		obj.tiles = (function(builder) {
-			const tiles = []
+		obj.whitePieces = builder.whiteConfig
+		obj.blackPieces = builder.blackConfig
+		obj.tiles = new Array(utilsjs.NUM_TILES)
+					.fill(null)
+					.map((value, index) => Tile.create(index, value))
 
-			for (let i = 0; i < utilsjs.NUM_TILES; i++) {
-				tiles.push(Tile.create(i, builder.config[i]))
-			}
+		builder.whiteConfig.forEach(piece => {
+			const index = utilsjs.index(piece.row, piece.col)
+			obj.tiles[index] = Tile.create(index, piece)
+		})
 
-			return tiles
-		})(builder)
+		builder.blackConfig.forEach(piece => {
+			const index = utilsjs.index(piece.row, piece.col)
+			obj.tiles[index] = Tile.create(index, piece)
+		})
 
 		return obj
 	},
@@ -149,13 +156,21 @@ const Board = {
 const BoardBuilder = {
 	create: function() {
 		const obj = Object.create(this)
-		obj.config = new Array(utilsjs.NUM_TILES).fill(null)
+		// obj.config = new Array(utilsjs.NUM_TILES).fill(null)
+		obj.whiteConfig = []
+		obj.blackConfig = []
 		obj.turn = Alliance.WHITE
 		return obj
 	},
 
 	addPiece: function(piece) {
-		this.config[utilsjs.index(piece.row, piece.col)] = piece
+		if (piece.alliance === Alliance.WHITE) {
+			this.whiteConfig.push(piece)
+		}
+		else {
+			this.blackConfig.push(piece)
+		}
+		// this.config[utilsjs.index(piece.row, piece.col)] = piece
 	},
 
 	build: function() {
