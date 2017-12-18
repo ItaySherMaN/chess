@@ -20,11 +20,12 @@ const Pawn = {
 
 	create: function(row, col, alliance) {
 		const obj = Piece.create(row, col, alliance)
-
-		obj.type = Type.PAWN
 		obj.isFirstMove = true
-
 		return obj
+	},
+
+	toString: function() {
+		return this.alliance === Alliance.WHITE ? Type.PAWN : Type.PAWN.toLowerCase()
 	},
 
 	pseudoLegalMoves: function(board) {

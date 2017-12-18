@@ -1,8 +1,10 @@
 const piecejs = require('./piece')
 const typejs = require('./../type')
+const alliancejs = require('./../alliance')
 
 const Type = typejs.Type
 const SlidingPiece = piecejs.SlidingPiece
+const Alliance = alliancejs.Alliance
 
 const Rook = {
 	moveOffsets: [
@@ -13,9 +15,11 @@ const Rook = {
 	],
 
 	create: function(row, col, alliance) {
-		const obj = SlidingPiece.create(row, col, alliance)
-		obj.type = Type.ROOK
-		return obj
+		return SlidingPiece.create(row, col, alliance)
+	},
+
+	toString: function() {
+		return this.alliance === Alliance.WHITE ? Type.ROOK : Type.ROOK.toLowerCase()
 	}
 }
 

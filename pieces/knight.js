@@ -1,12 +1,10 @@
 const piecejs = require('./piece')
 const typejs = require('./../type')
-const movejs = require('./../board/move')
-const utilsjs = require('./../utils')
+const alliancejs = require('./../alliance')
 
 const Type = typejs.Type
 const SteppingPiece = piecejs.Piece
-const RegularMove = movejs.RegularMove
-const AttackingMove = movejs.AttackingMove
+const Alliance = alliancejs.Alliance
 
 const Knight = {
 	moveOffsets: [
@@ -20,10 +18,12 @@ const Knight = {
 		{row: -2, col: -1}
 	],
 
+	toString: function() {
+		return this.alliance === Alliance.WHITE ? Type.KNIGHT : Type.KNIGHT.toLowerCase()
+	},
+
 	create: function(row, col, alliance) {
-		const obj = SteppingPiece.create(row, col, alliance)
-		obj.type = Type.KNIGHT
-		return obj
+		return SteppingPiece.create(row, col, alliance)
 	}
 }
 
