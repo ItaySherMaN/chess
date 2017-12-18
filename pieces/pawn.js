@@ -57,7 +57,7 @@ const Pawn = {
 			destRow = this.row + 2 * dir
 			destCol = this.col
 
-			if (board.get(destRow - dir, destCol).empty && board.get(destRow, destCol).empty) {
+			if (board.get(destRow, destCol).empty && board.get(destRow - dir, destCol).empty) {
 				moves.push(RegularMove.create(board, destRow, destCol, this))
 			}
 		}
