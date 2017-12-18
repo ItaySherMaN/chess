@@ -1,7 +1,7 @@
 const piecejs = require('./piece')
 const typejs = require('./../type')
 const movejs = require('./../board/move')
-const utilsjs = require('./..utils')
+const utilsjs = require('./../utils')
 
 const Type = typejs.Type
 const SteppingPiece = piecejs.Piece
@@ -26,3 +26,5 @@ const King = {
 		return obj
 	}
 }
+
+module.exports.King = King

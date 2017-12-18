@@ -4,13 +4,21 @@ const bishopjs = require('./bishop')
 const rookjs = require('./rook')
 
 const Type = typejs.Type
-const Piece = piecejs.Piece
 const SlidingPiece = piecejs.SlidingPiece
 const Bishop = bishopjs.Bishop
 const Rook = rookjs.Rook
 
 const Queen = {
-	moveOffsets: Bishop.moveOffsets.concat(Rook.moveOffsets),
+	moveOffsets: [
+		{row: -1, col: 1},
+		{row: -1, col: -1},
+		{row: 1, col: 1},
+		{row: 1, col: -1},
+		{row: 0, col: 1},
+		{row: 1, col: 0},
+		{row: 0, col: -1},
+		{row: -1, col: 0}
+	],
 
 	create: function(row, col, alliance) {
 		const obj = SlidingPiece.create(row, col, alliance)
@@ -18,6 +26,8 @@ const Queen = {
 		return obj
 	}
 }
+
+module.exports.Queen = Queen
 
 /*
 

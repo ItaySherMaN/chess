@@ -2,7 +2,6 @@ const piecejs = require('./piece')
 const typejs = require('./../type')
 
 const Type = typejs.Type
-const Piece = piecejs.Piece
 const SlidingPiece = piecejs.SlidingPiece
 
 const Rook = {
@@ -19,6 +18,8 @@ const Rook = {
 		return obj
 	}
 }
+
+module.exports.Rook = Rook
 
 /*
 

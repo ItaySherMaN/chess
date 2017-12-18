@@ -66,6 +66,8 @@ const Pawn = {
 	}
 }
 
+module.exports.Pawn = Pawn
+
 /*
 
 --------
