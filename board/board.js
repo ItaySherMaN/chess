@@ -17,6 +17,26 @@ const Rook = rookjs.Rook
 const Queen = queenjs.Queen
 const King = kingjs.King
 
+// The Board.print() function:
+//
+// _______________________________________
+//  wr | wk | wb | wK | wq | wb | wk | wr
+// ____|____|____|____|____|____|____|____
+//  wp | wp | wp | wp | wp | wp | wp | wp
+// ____|____|____|____|____|____|____|____
+//     |    |    |    |    |    |    |
+// ____|____|____|____|____|____|____|____
+//     |    |    |    |    |    |    |
+// ____|____|____|____|____|____|____|____
+//     |    |    |    |    |    |    |
+// ____|____|____|____|____|____|____|____
+//     |    |    |    |    |    |    |
+// ____|____|____|____|____|____|____|____
+//  bp | bp | bp | bp | bp | bp | bp | bp
+// ____|____|____|____|____|____|____|____
+//  br | bk | bb | bK | bq | bb | bk | br
+// ____|____|____|____|____|____|____|____
+
 const Board = {
 	create: function(builder) {
 		const obj = Object.create(this)
@@ -47,24 +67,82 @@ const Board = {
 		return this.tiles[utilsjs.index(row, col)]
 	},
 
-	print: function() {
+	printWhiteView: function() {
+		console.log('_______________________________________')
+
+		const seperation = '____|____|____|____|____|____|____|____'
 		let msg = ''
 
-		for (let i = 0; i < this.tiles.length; i++) {
-			const tile = this.tiles[i]
+		let i, j
 
-			if (tile.empty) {
-				msg += ' '
-			}
-			else {
-				msg += tile.piece.type
-			}
+		for (i = 7; i >= 0; i--) {
+			for (j = 0; j < 8; j++) {
+				const tile = this.tiles[utilsjs.index(i, j)]
 
-			if (i % 8 === 7) {
-				console.log(msg);
-				msg = ''
+				if (j === 7) {
+					if (tile.empty) {
+						msg += '    '
+					}
+					else {
+						msg += ' ' + tile.piece.alliance + tile.piece.type + ' '
+					}
+
+					console.log(msg)
+					console.log(seperation)
+
+					msg = ''
+				}
+				else {
+					if (tile.empty) {
+						msg += '    |'
+					}
+					else {
+						msg += ' ' + tile.piece.alliance + tile.piece.type + ' |'
+					}
+				}
 			}
 		}
+
+		console.log()
+	},
+
+	printBlackView: function() {
+		console.log('_______________________________________')
+
+		const seperation = '____|____|____|____|____|____|____|____'
+		let msg = ''
+
+		let i, j
+
+		for (i = 0; i < 8; i++) {
+			for (j = 7; j >= 0; j--) {
+				const tile = this.tiles[utilsjs.index(i, j)]
+
+				if (j === 0) {
+					if (tile.empty) {
+						msg += '    '
+					}
+					else {
+						msg += ' ' + tile.piece.alliance + tile.piece.type + ' '
+					}
+
+					console.log(msg)
+					console.log(seperation)
+
+					msg = ''
+				}
+				else {
+					if (tile.empty) {
+						msg += '    |'
+					}
+					else {
+						msg += ' ' + tile.piece.alliance + tile.piece.type + ' |'
+					}
+				}
+			}
+		}
+
+		console.log()
 	}
 }
 
