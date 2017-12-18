@@ -13,10 +13,6 @@ const Piece = {
 		return obj
 	},
 
-	toString: function() {
-		return this.alliance === Alliance.WHITE ? this.type : this.type.toLowerCase()
-	},
-
 	legalMoves: function(board) {
 		return this.pseudoLegalMoves(board).filter(move => {
 			return !board.play(move).isCheck()
