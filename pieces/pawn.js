@@ -2,10 +2,14 @@ const piecejs = require('./piece')
 const typejs = require('./../type')
 const alliancejs = require('./../alliance')
 const utilsjs = require('./../utils')
+const movejs = require('./../board/move')
 
 const Type = typejs.Type
 const Piece = piecejs.Piece
 const Alliance = alliancejs.Alliance
+const RegularMove = movejs.RegularMove
+const PawnPromotionMove = movejs.PawnPromotionMove
+const PawnAttackingPromotionMove = movejs.PawnAttackingPromotionMove
 
 const Pawn = {
 	moveOffsets: [
@@ -38,7 +42,7 @@ const Pawn = {
 
 				if (offset.colOffset === 0) {
 					if (destTile.empty) {
-						moves.push(RegularPawnMove.create(board, destRow, destCol, this))
+						moves.push(PawnPromotionMove.create(board, destRow, destCol, this))
 					}
 				}
 				else {
@@ -46,7 +50,7 @@ const Pawn = {
 						const destPiece = destTile.piece
 
 						if (destPiece.alliance !== this.alliance) {
-							moves.push(AttackingPawnMove.create(board, destRow, destCol, this, destPiece))
+							moves.push(PawnAttackingPromotionMove.create(board, destRow, destCol, this, destPiece))
 						}
 					}
 				}
