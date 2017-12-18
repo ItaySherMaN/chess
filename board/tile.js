@@ -44,3 +44,5 @@ Tile.emptyTiles = (function () {
 })()
 
 module.exports.Tile = Tile
+module.exports.EmptyTile = EmptyTile
+module.exports.OccupiedTile = OccupiedTile

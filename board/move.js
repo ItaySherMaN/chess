@@ -25,7 +25,7 @@ const AttackingMove = {
 	}
 }
 
-const RegularPawnMove = {
+const PawnPromotionMove = {
 	create: function(board, destRow, destCol, movedPiece) {
 		const obj = RegularMove.create(board, destRow, destCol, movedPiece)
 
@@ -35,7 +35,7 @@ const RegularPawnMove = {
 	}
 }
 
-const AttackingPawnMove = {
+const PawnAttackingPromotionMove = {
 	create: function(board, destRow, destCol, movedPiece, attackedPiece) {
 		const obj = AttackingMove.create(board, destRow, destCol, movedPiece, attackedPiece)
 
@@ -47,3 +47,5 @@ const AttackingPawnMove = {
 
 module.exports.RegularMove = RegularMove
 module.exports.AttackingMove = AttackingMove
+module.exports.PawnPromotionMove = PawnPromotionMove
+module.exports.PawnAttackingPromotionMove = PawnAttackingPromotionMove
