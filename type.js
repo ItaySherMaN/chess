@@ -1,9 +1,9 @@
 const Type = {
-	PAWN: 'p',
-	KNIGHT: 'k',
-	BISHOP: 'b',
-	ROOK: 'r',
-	QUEEN: 'q',
+	PAWN: 'P',
+	KNIGHT: 'N',
+	BISHOP: 'B',
+	ROOK: 'R',
+	QUEEN: 'Q',
 	KING: 'K'
 }
 
