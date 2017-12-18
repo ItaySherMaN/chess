@@ -33,7 +33,7 @@ const Board = {
 	},
 
 	get: function(row, col) {
-		return this.tiles[utilsjs.indexFromCoordinates(row, col)]
+		return this.tiles[utilsjs.index(row, col)]
 	}
 }
 

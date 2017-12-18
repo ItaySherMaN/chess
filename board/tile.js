@@ -12,7 +12,7 @@ const Tile = {
 	},
 
 	create: function(row, col, piece) {
-		return piece == null ? this.emptyTiles[utilsjs.indexFromCoordinates(row, col)] : OccupiedTile.create(row, col, piece)
+		return piece == null ? this.emptyTiles[utilsjs.index(row, col)] : OccupiedTile.create(row, col, piece)
 	}
 }
 
