@@ -16,10 +16,6 @@ const Queen = {
 		const obj = SlidingPiece.create(row, col, alliance)
 		obj.type = Type.QUEEN
 		return obj
-	},
-
-	pseudoLegalMoves: function(board) {
-		return this.slidingPiecePseudoLegalMoves(board)
 	}
 }
 

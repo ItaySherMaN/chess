@@ -17,10 +17,6 @@ const Rook = {
 		const obj = SlidingPiece.create(row, col, alliance)
 		obj.type = Type.ROOK
 		return obj
-	},
-
-	pseudoLegalMoves: function(board) {
-		return this.slidingPiecePseudoLegalMoves(board)
 	}
 }
 

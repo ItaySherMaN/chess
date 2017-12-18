@@ -17,10 +17,6 @@ const Bishop = {
 		const obj = SlidingPiece.create(row, col, alliance)
 		obj.type = Type.BISHOP
 		return obj
-	},
-
-	pseudoLegalMoves: function(board) {
-		return this.slidingPiecePseudoLegalMoves(board)
 	}
 }
 
