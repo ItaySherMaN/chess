@@ -66,7 +66,22 @@ const Board = {
 		obj.blackPieces = builder.blackConfig
 		obj.tiles = calculateTiles(builder)
 
+		obj.whiteLegalMoves = this.calculateLegalMoves(obj.whitePieces)
+		obj.blackLegalMoves = this.calculateLegalMoves(obj.blackPieces)
+
 		return obj
+	},
+
+	calculateLegalMoves: pieces => {
+		const legalMoves = []
+
+		pieces.forEach(piece => {
+			piece.legalMoves(this).forEach(move => {
+				legalMoves.push(move)
+			})
+		})
+
+		return legalMoves
 	},
 
 	play: function(move) {
