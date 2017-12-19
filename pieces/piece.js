@@ -3,14 +3,19 @@ const alliancejs = require('./../alliance')
 const Alliance = alliancejs.Alliance
 
 const Piece = {
-	create: function(row, col, alliance) {
+	create: function(row, col, type, alliance) {
 		const obj = Object.create(this)
 
 		obj.row = row
 		obj.col = col
+		obj.type = type
 		obj.alliance = alliance
 
 		return obj
+	},
+
+	toString: function() {
+		return this.alliance === Alliance.WHITE ? this.type : this.type.toLowerCase()
 	},
 
 	legalMoves: function(board) {
