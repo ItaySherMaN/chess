@@ -7,5 +7,6 @@ const boardjs = require('./board/board')
 
 const Board = boardjs.Board
 
-console.log(Board.standardBoardLayout.whiteView())
-console.log(Board.standardBoardLayout.blackView())
+const board = Board.standardBoardLayout
+
+console.log(board.whiteView())
