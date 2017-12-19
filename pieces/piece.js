@@ -1,17 +1,21 @@
 const alliancejs = require('./../alliance')
+const utilsjs = require('./../utils')
+const movejs = require('./../board/move')
 
 const Alliance = alliancejs.Alliance
+const RegularMove = movejs.RegularMove
+const AttackingMove = movejs.AttackingMove
 
 const Piece = {
 	create: function(row, col, type, alliance) {
-		const obj = Object.create(this)
+		return Object.create(this).super(row, col, type, alliance)
+	},
 
-		obj.row = row
-		obj.col = col
-		obj.type = type
-		obj.alliance = alliance
-
-		return obj
+	super: function(row, col, type, alliance) {
+		this.row = row
+		this.col = col
+		this.type = type
+		this.alliance = alliance
 	},
 
 	toString: function() {
@@ -26,8 +30,8 @@ const Piece = {
 }
 
 const SlidingPiece = {
-	create: function(row, col, alliance) {
-		return Piece.create(row, col, alliance)
+	super: function(row, col, type, alliance) {
+		SlidingPiece.__proto__.super.call(this, row, col, type, alliance)
 	},
 
 	pseudoLegalMoves: function(board) {
@@ -61,9 +65,11 @@ const SlidingPiece = {
 	}
 }
 
+SlidingPiece.__proto__ = Piece
+
 const SteppingPiece = {
-	create: function(row, col, alliance) {
-		return Piece.create(row, col, alliance)
+	super: function(row, col, type, alliance) {
+		SteppingPiece.__proto__.super.call(this, row, col, type, alliance)
 	},
 
 	pseudoLegalMoves: function(board) {
@@ -92,6 +98,8 @@ const SteppingPiece = {
 		return moves
 	}
 }
+
+SteppingPiece.__proto__ = Piece
 
 module.exports.Piece = Piece
 module.exports.SlidingPiece = SlidingPiece
