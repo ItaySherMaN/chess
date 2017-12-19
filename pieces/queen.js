@@ -19,9 +19,13 @@ const Queen = {
 	],
 
 	create: function(row, col, alliance) {
-		return SlidingPiece.create(row, col, Type.QUEEN, alliance)
+		const obj = Object.create(this)
+		this.__proto__.super.call(obj, row, col, Type.QUEEN, alliance)
+		return obj
 	}
 }
+
+Queen.__proto__ = SlidingPiece
 
 module.exports.Queen = Queen
 

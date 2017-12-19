@@ -15,9 +15,13 @@ const Rook = {
 	],
 
 	create: function(row, col, alliance) {
-		return SlidingPiece.create(row, col, Type.ROOK, alliance)
+		const obj = Object.create(this)
+		this.__proto__.super.call(obj, row, col, Type.ROOK, alliance)
+		return obj
 	}
 }
+
+Rook.__proto__ = SlidingPiece
 
 module.exports.Rook = Rook
 

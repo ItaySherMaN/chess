@@ -3,7 +3,7 @@ const typejs = require('./../type')
 const alliancejs = require('./../alliance')
 
 const Type = typejs.Type
-const SteppingPiece = piecejs.Piece
+const SteppingPiece = piecejs.SteppingPiece
 const Alliance = alliancejs.Alliance
 
 const Knight = {
@@ -19,9 +19,13 @@ const Knight = {
 	],
 
 	create: function(row, col, alliance) {
-		return SteppingPiece.create(row, col, Type.KNIGHT, alliance)
+		const obj = Object.create(this)
+		this.__proto__.super.call(obj, row, col, Type.KNIGHT, alliance)
+		return obj
 	}
 }
+
+Knight.__proto__ = SteppingPiece
 
 module.exports.Knight = Knight
 

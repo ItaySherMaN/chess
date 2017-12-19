@@ -15,9 +15,13 @@ const Bishop = {
 	],
 
 	create: function(row, col, alliance) {
-		return SlidingPiece.create(row, col, Type.BISHOP, alliance)
+		const obj = Object.create(this)
+		this.__proto__.super.call(obj, row, col, Type.BISHOP, alliance)
+		return obj
 	}
 }
+
+Bishop.__proto__ = SlidingPiece
 
 module.exports.Bishop = Bishop
 

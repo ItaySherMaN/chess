@@ -19,14 +19,17 @@ const Pawn = {
 	],
 
 	create: function(row, col, alliance) {
-		const obj = Piece.create(row, col, Type.PAWN, alliance)
+		const obj = Object.create(this)
+
+		this.__proto__.super.call(obj, row, col, Type.PAWN, alliance)
 		obj.isFirstMove = true
+		
 		return obj
 	},
 
 	pseudoLegalMoves: function(board) {
 		const moves = []
-		const dir = Alliance.direction(alliance)
+		const dir = Alliance.direction(this.alliance)
 
 		let destRow, destCol
 
@@ -37,9 +40,9 @@ const Pawn = {
 			if (utilsjs.areValidCoordinates(destRow, destCol)) {
 				const destTile = board.get(destRow, destCol)
 
-				if (offset.colOffset === 0) {
+				if (offset.col === 0) {
 					if (destTile.empty) {
-						moves.push(PawnPromotionMove.create(board, destRow, destCol, this))
+						moves.push(RegularMove.create(board, destRow, destCol, this))
 					}
 				}
 				else {
@@ -47,7 +50,7 @@ const Pawn = {
 						const destPiece = destTile.piece
 
 						if (destPiece.alliance !== this.alliance) {
-							moves.push(PawnAttackingPromotionMove.create(board, destRow, destCol, this, destPiece))
+							moves.push(AttackingMove.create(board, destRow, destCol, this, destPiece))
 						}
 					}
 				}
@@ -66,6 +69,8 @@ const Pawn = {
 		return moves
 	}
 }
+
+Pawn.__proto__ = Piece
 
 module.exports.Pawn = Pawn
 
