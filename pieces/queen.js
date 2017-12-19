@@ -18,12 +18,8 @@ const Queen = {
 		{row: -1, col: 0}
 	],
 
-	toString: function() {
-		return this.alliance === Alliance.WHITE ? Type.QUEEN : Type.QUEEN.toLowerCase()
-	},
-
 	create: function(row, col, alliance) {
-		return SlidingPiece.create(row, col, alliance)
+		return SlidingPiece.create(row, col, Type.QUEEN, alliance)
 	}
 }
 

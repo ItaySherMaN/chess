@@ -15,11 +15,7 @@ const Rook = {
 	],
 
 	create: function(row, col, alliance) {
-		return SlidingPiece.create(row, col, alliance)
-	},
-
-	toString: function() {
-		return this.alliance === Alliance.WHITE ? Type.ROOK : Type.ROOK.toLowerCase()
+		return SlidingPiece.create(row, col, Type.ROOK, alliance)
 	}
 }
 

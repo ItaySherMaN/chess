@@ -18,12 +18,8 @@ const Knight = {
 		{row: -2, col: -1}
 	],
 
-	toString: function() {
-		return this.alliance === Alliance.WHITE ? Type.KNIGHT : Type.KNIGHT.toLowerCase()
-	},
-
 	create: function(row, col, alliance) {
-		return SteppingPiece.create(row, col, alliance)
+		return SteppingPiece.create(row, col, Type.KNIGHT, alliance)
 	}
 }
 

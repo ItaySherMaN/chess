@@ -14,12 +14,8 @@ const Bishop = {
 		{row: 1, col: -1}
 	],
 
-	toString: function() {
-		return this.alliance === Alliance.WHITE ? Type.BISHOP : Type.BISHOP.toLowerCase()
-	},
-
 	create: function(row, col, alliance) {
-		return SlidingPiece.create(row, col, alliance)
+		return SlidingPiece.create(row, col, Type.BISHOP, alliance)
 	}
 }
 
