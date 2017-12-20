@@ -6,7 +6,7 @@ const Type = typejs.Type
 const SlidingPiece = piecejs.SlidingPiece
 const Alliance = alliancejs.Alliance
 
-const Bishop = {
+export const Bishop = {
 	moveOffsets: [
 		{row: -1, col: 1},
 		{row: -1, col: -1},
@@ -22,8 +22,6 @@ const Bishop = {
 }
 
 Bishop.__proto__ = SlidingPiece
-
-module.exports.Bishop = Bishop
 
 /*
 
