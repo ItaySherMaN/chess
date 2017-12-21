@@ -1,8 +1,9 @@
+import utils from './../../utils.js'
 import Tile from './tile.js'
 
 const EmptyTile = {
 	init(index) {
-		this.parent(index, null, arguments)
+		this.parent(index, arguments)
 	},
 
 	empty() {
@@ -11,13 +12,14 @@ const EmptyTile = {
 
 	toString() {
 		return ' '
-	},
-
-	emptyTiles: new Array(utils.NUM_TILES).map((value, index) => {
-		EmptyTile.create(index)
-	})
+	}
 }
 
 EmptyTile.extends(Tile)
+
+EmptyTile.emptyTiles = new Array(utils.NUM_TILES).fill(null).map((value, index) => {
+	console.log(index)
+	return EmptyTile.create(index)
+})
 
 export default EmptyTile

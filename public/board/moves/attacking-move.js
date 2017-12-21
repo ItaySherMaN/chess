@@ -8,3 +8,5 @@ const AttackingMove = {
 }
 
 AttackingMove.extends(Move)
+
+export default AttackingMove

@@ -2,7 +2,8 @@ import Tile from './tile.js'
 
 const OccupiedTile = {
 	init(index, piece) {
-		this.parent(index, piece, arguments)
+		this.parent(index, arguments)
+		this.piece = piece
 	},
 
 	empty() {

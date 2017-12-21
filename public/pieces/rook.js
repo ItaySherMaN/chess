@@ -1,4 +1,3 @@
-import './../inheritance.js'
 import SlidingPiece from './general-pieces/sliding-piece.js'
 import Type from './../type.js'
 
@@ -22,7 +21,7 @@ const Rook = {
 	],
 
 	init(row, col, alliance) {
-		this.parent(row, col, Type.Rook, alliance, arguments)
+		this.parent(row, col, Type.ROOK, alliance, arguments)
 	}
 }
 

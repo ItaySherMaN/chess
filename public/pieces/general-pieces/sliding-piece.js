@@ -1,5 +1,5 @@
 import Piece from './piece.js'
-import * as utils from './../../utils.js'
+import utils from './../../utils.js'
 import RegularMove from './../../board/moves/regular-move.js'
 import AttackingMove from './../../board/moves/attacking-move.js'
 
@@ -18,7 +18,7 @@ const SlidingPiece = {
 			while (utils.areValidCoordinates(destRow, destCol)) {
 				const destTile = board.get(destRow, destCol)
 
-				if (destTile.empty) {
+				if (destTile.empty()) {
 					moves.push(RegularMove.create(board, destRow, destCol, this))
 				}
 				else {

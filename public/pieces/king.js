@@ -30,3 +30,5 @@ const King = {
 }
 
 King.extends(SteppingPiece)
+
+export default King

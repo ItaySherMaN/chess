@@ -1,5 +1,5 @@
-import SlidingPiece from 'general-pieces/sliding-piece'
-import Type from '../type'
+import SlidingPiece from './general-pieces/sliding-piece.js'
+import Type from '../type.js'
 
 /*
 x----x--
@@ -29,6 +29,6 @@ const Queen = {
 	}
 }
 
-Queen.extend(SlidingPiece)
+Queen.extends(SlidingPiece)
 
 export default Queen

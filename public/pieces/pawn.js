@@ -1,8 +1,9 @@
-import Type from '../type'
-import Piece from 'piece'
-import Alliance from '../alliance'
-import RegularMove from '../board/moves/regular-move'
-import AttackingMove from '../board/moves/attacking-move'
+import Type from './../type.js'
+import Piece from './general-pieces/piece.js'
+import Alliance from './../alliance.js'
+import RegularMove from './../board/moves/regular-move.js'
+import AttackingMove from './../board/moves/attacking-move.js'
+import utils from './../utils.js'
 
 /*
 --------
@@ -23,7 +24,7 @@ const Pawn = {
 	],
 
 	init(row, col, alliance) {
-		this.parent(row, col, alliance, arguments)
+		this.parent(row, col, Type.PAWN, alliance, arguments)
 		this.isFirstMove = true
 	},
 
@@ -37,7 +38,7 @@ const Pawn = {
 			destRow = this.row + offset.row * dir
 			destCol = this.col + offset.col
 
-			if (utilsjs.areValidCoordinates(destRow, destCol)) {
+			if (utils.areValidCoordinates(destRow, destCol)) {
 				const destTile = board.get(destRow, destCol)
 
 				if (offset.col === 0) {

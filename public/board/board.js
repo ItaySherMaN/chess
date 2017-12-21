@@ -1,6 +1,7 @@
-import * as utils from './../utils.js'
+import utils from './../utils.js'
 import Alliance from './../alliance.js'
-import Tile from './tiles/tile.js'
+import EmptyTile from './tiles/empty-tile.js'
+import OccupiedTile from './tiles/occupied-tile.js'
 import Type from './../type.js'
 import WhitePlayer from './../players/white-player.js'
 import BlackPlayer from './../players/black-player.js'
@@ -51,19 +52,19 @@ const Board = {
 	},
 
 	calculateTiles(builder) {
-		const tiles = new Array(utilsjs.NUM_TILES)
+		const tiles = new Array(utils.NUM_TILES)
 
-		for (let i = 0; i < utilsjs.NUM_TILES; i++) {
+		for (let i = 0; i < utils.NUM_TILES; i++) {
 			tiles[i] = EmptyTile.emptyTiles[i]
 		}
 
 		builder.whiteConfig.forEach(piece => {
-			const index = utilsjs.index(piece.row, piece.col)
+			const index = utils.index(piece.row, piece.col)
 			tiles[index] = OccupiedTile.create(index, piece)
 		})
 
 		builder.blackConfig.forEach(piece => {
-			const index = utilsjs.index(piece.row, piece.col)
+			const index = utils.index(piece.row, piece.col)
 			tiles[index] = OccupiedTile.create(index, piece)
 		})
 
@@ -92,7 +93,7 @@ const Board = {
 	},
 
 	get(row, col) {
-		return this.tiles[utilsjs.index(row, col)]
+		return this.tiles[utils.index(row, col)]
 	},
 
 	whiteViewToString() {
@@ -104,7 +105,7 @@ const Board = {
 
 		for (i = 7; i >= 0; i--) {
 			for (j = 0; j < 8; j++) {
-				result += ' ' + this.tiles[utilsjs.index(i, j)].toString() + ' '
+				result += ' ' + this.tiles[utils.index(i, j)].toString() + ' '
 
 				if (j !== 7) {
 					result += '|'
@@ -126,7 +127,7 @@ const Board = {
 
 		for (i = 0; i < 8; i++) {
 			for (j = 7; j >= 0; j--) {
-				result += ' ' + this.tiles[utilsjs.index(i, j)].toString() + ' '
+				result += ' ' + this.tiles[utils.index(i, j)].toString() + ' '
 
 				if (j !== 0) {
 					result += '|'
@@ -137,36 +138,40 @@ const Board = {
 		}
 
 		return result
-	},
+	}
+}
 
-	standardBoardLayout: (function() {
-		const builder = BoardBuilder.create(Alliance.WHITE)
+const createStandardBoardLayout = function() {
+	const builder = BoardBuilder.create(Alliance.WHITE)
 
-		builder.addPiece(Rook.create(0, 0, Alliance.WHITE))
-		builder.addPiece(Knight.create(0, 1, Alliance.WHITE))
-		builder.addPiece(Bishop.create(0, 2, Alliance.WHITE))
-		builder.addPiece(Queen.create(0, 3, Alliance.WHITE))
-		builder.addPiece(King.create(0, 4, Alliance.WHITE))
-		builder.addPiece(Bishop.create(0, 5, Alliance.WHITE))
-		builder.addPiece(Knight.create(0, 6, Alliance.WHITE))
-		builder.addPiece(Rook.create(0, 7, Alliance.WHITE))
+	builder.addPiece(Rook.create(0, 0, Alliance.WHITE))
+	builder.addPiece(Knight.create(0, 1, Alliance.WHITE))
+	builder.addPiece(Bishop.create(0, 2, Alliance.WHITE))
+	builder.addPiece(Queen.create(0, 3, Alliance.WHITE))
+	builder.addPiece(King.create(0, 4, Alliance.WHITE))
+	builder.addPiece(Bishop.create(0, 5, Alliance.WHITE))
+	builder.addPiece(Knight.create(0, 6, Alliance.WHITE))
+	builder.addPiece(Rook.create(0, 7, Alliance.WHITE))
 
-		for (let i = 0; i < 8; i++) {
-			builder.addPiece(Pawn.create(1, i, Alliance.WHITE))
-			builder.addPiece(Pawn.create(6, i, Alliance.BLACK))
-		}
+	for (let i = 0; i < 8; i++) {
+		builder.addPiece(Pawn.create(1, i, Alliance.WHITE))
+		builder.addPiece(Pawn.create(6, i, Alliance.BLACK))
+	}
 
-		builder.addPiece(Rook.create(7, 0, Alliance.BLACK))
-		builder.addPiece(Knight.create(7, 1, Alliance.BLACK))
-		builder.addPiece(Bishop.create(7, 2, Alliance.BLACK))
-		builder.addPiece(Queen.create(7, 3, Alliance.BLACK))
-		builder.addPiece(King.create(7, 4, Alliance.BLACK))
-		builder.addPiece(Bishop.create(7, 5, Alliance.BLACK))
-		builder.addPiece(Knight.create(7, 6, Alliance.BLACK))
-		builder.addPiece(Rook.create(7, 7, Alliance.BLACK))
+	builder.addPiece(Rook.create(7, 0, Alliance.BLACK))
+	builder.addPiece(Knight.create(7, 1, Alliance.BLACK))
+	builder.addPiece(Bishop.create(7, 2, Alliance.BLACK))
+	builder.addPiece(Queen.create(7, 3, Alliance.BLACK))
+	builder.addPiece(King.create(7, 4, Alliance.BLACK))
+	builder.addPiece(Bishop.create(7, 5, Alliance.BLACK))
+	builder.addPiece(Knight.create(7, 6, Alliance.BLACK))
+	builder.addPiece(Rook.create(7, 7, Alliance.BLACK))
 
-		return builder.build()
-	})()
+	console.log(Board)
+
+	return builder.build()
 }
 
 export default Board
+
+Board.standardBoardLayout = createStandardBoardLayout()

@@ -9,23 +9,9 @@ const Piece = {
 	},
 
 	toString() {
+		console.log(this.type)
 		return this.alliance === Alliance.WHITE ? this.type : this.type.toLowerCase()
 	}
 }
 
 export default Piece
-
-// const Piece = {
-// 	super: function(row, col, type, alliance) {
-// 		this.row = row
-// 		this.col = col
-// 		this.type = type
-// 		this.alliance = alliance
-// 	},
-//
-// 	toString: function() {
-// 		return this.alliance === Alliance.WHITE ? this.type : this.type.toLowerCase()
-// 	}
-// }
-//
-// export default Piece
