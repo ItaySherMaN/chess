@@ -22,7 +22,7 @@ const Rook = {
 	],
 
 	init(row, col, alliance) {
-		this.parent(row, col, Type.Rook, alliance)
+		this.parent(row, col, Type.Rook, alliance, arguments)
 	}
 }
 

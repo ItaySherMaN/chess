@@ -25,7 +25,7 @@ const Queen = {
 	],
 
 	init(row, col, alliance) {
-		this.parent(row, col, Type.QUEEN, alliance)
+		this.parent(row, col, Type.QUEEN, alliance, arguments)
 	}
 }
 

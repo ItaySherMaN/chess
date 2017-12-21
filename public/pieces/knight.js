@@ -25,7 +25,7 @@ const Knight = {
 	],
 
 	init(row, col, alliance) {
-		this.parent(row, col, Type.KNIGHT, alliance)
+		this.parent(row, col, Type.KNIGHT, alliance, arguments)
 	}
 }
 

@@ -4,6 +4,17 @@ import Alliance from '../alliance'
 import RegularMove from '../board/moves/regular-move'
 import AttackingMove from '../board/moves/attacking-move'
 
+/*
+--------
+--------
+--------
+--------
+----x---
+---xxx--
+----o---
+--------
+*/
+
 const Pawn = {
 	moveOffsets: [
 		{row: 1, col:  0},
@@ -12,7 +23,7 @@ const Pawn = {
 	],
 
 	init(row, col, alliance) {
-		this.parent(row, col, alliance)
+		this.parent(row, col, alliance, arguments)
 		this.isFirstMove = true
 	},
 
@@ -62,16 +73,3 @@ const Pawn = {
 Pawn.extends(Piece)
 
 export default Pawn
-
-/*
-
---------
---------
---------
---------
-----x---
----xxx--
-----o---
---------
-
-*/

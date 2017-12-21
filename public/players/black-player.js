@@ -2,7 +2,7 @@ import Player from 'player'
 
 const BlackPlayer = {
 	init(board, legalMoves, opponentLegalMoves) {
-		this.parent(board, legalMoves, opponentLegalMoves)
+		this.parent(board, legalMoves, opponentLegalMoves, arguments)
 	}
 }
 

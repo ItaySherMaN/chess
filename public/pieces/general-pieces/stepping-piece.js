@@ -3,36 +3,38 @@ import * as utils from './../../utils.js'
 import RegularMove from './../../board/moves/regular-move.js'
 import AttackingMove from './../../board/moves/attacking-move.js'
 
-const SteppingPiece = Object.create(Piece)
+const SteppingPiece = {
+	init(row, col, type, alliance) {
+		this.parent(row, col, type, alliance, arguments)
+	},
 
-SteppingPiece.super = function(row, col, type, alliance) {
-	this.__proto__.super.apply(this, arguments)
-}
+	pseudoLegalMoves(board) {
+		const moves = []
 
-SteppingPiece.pseudoLegalMoves = board => {
-	const moves = []
+		this.moveOffsets.forEach(offset => {
+			const destRow = this.row + offset.row
+			const destCol = this.col + offset.col
 
-	this.moveOffsets.forEach(offset => {
-		const destRow = this.row + offset.row
-		const destCol = this.col + offset.col
+			if (utils.areValidCoordinates(destRow, destCol)) {
+				const destTile = board.get(destRow, destCol)
 
-		if (utils.areValidCoordinates(destRow, destCol)) {
-			const destTile = board.get(destRow, destCol)
+				if (destTile.empty) {
+					moves.push(RegularMove.create(board, destRow, destCol, this))
+				}
+				else {
+					const destPiece = destTile.piece
 
-			if (destTile.empty) {
-				moves.push(RegularMove.create(board, destRow, destCol, this))
-			}
-			else {
-				const destPiece = destTile.piece
-
-				if (destPiece.alliance !== this.alliance) {
-					moves.push(AttackingMove.create(board, destRow, destCol, this, destPiece))
+					if (destPiece.alliance !== this.alliance) {
+						moves.push(AttackingMove.create(board, destRow, destCol, this, destPiece))
+					}
 				}
 			}
-		}
-	})
+		})
 
-	return moves
+		return moves
+	}
 }
+
+SteppingPiece.extends(Piece)
 
 export default SteppingPiece
