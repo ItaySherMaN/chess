@@ -144,8 +144,6 @@ const Board = {
 const createStandardBoardLayout = function() {
 	const builder = BoardBuilder.create(Alliance.WHITE)
 
-	console.log(builder)
-
 	builder.addPiece(Rook.create(0, 0, Alliance.WHITE))
 	builder.addPiece(Knight.create(0, 1, Alliance.WHITE))
 	builder.addPiece(Bishop.create(0, 2, Alliance.WHITE))

@@ -23,6 +23,7 @@ const Rook = {
 	],
 
 	init(row, col, alliance) {
+		console.log(row, col, alliance, arguments)
 		this.parent(row, col, Type.ROOK, alliance, arguments)
 	}
 }
