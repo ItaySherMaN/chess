@@ -18,7 +18,6 @@ const EmptyTile = {
 EmptyTile.extends(Tile)
 
 EmptyTile.emptyTiles = new Array(utils.NUM_TILES).fill(null).map((value, index) => {
-	console.log(index)
 	return EmptyTile.create(index)
 })
 

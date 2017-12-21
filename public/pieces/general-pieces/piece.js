@@ -9,7 +9,6 @@ const Piece = {
 	},
 
 	toString() {
-		console.log(this.type)
 		return this.alliance === Alliance.WHITE ? this.type : this.type.toLowerCase()
 	}
 }

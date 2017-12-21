@@ -1,6 +1,8 @@
 import SlidingPiece from './general-pieces/sliding-piece.js'
 import Type from './../type.js'
 
+import Alliance from './../alliance.js'
+
 /*
 --x-----
 --x-----

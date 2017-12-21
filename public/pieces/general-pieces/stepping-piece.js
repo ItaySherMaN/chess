@@ -18,10 +18,6 @@ const SteppingPiece = {
 			if (utils.areValidCoordinates(destRow, destCol)) {
 				const destTile = board.get(destRow, destCol)
 
-				console.log(board)
-
-				console.log(destTile)
-
 				if (destTile.empty()) {
 					moves.push(RegularMove.create(board, destRow, destCol, this))
 				}
