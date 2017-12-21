@@ -1,17 +1,18 @@
-import * as utils from './../utils.js'
+import './../inheritance.js'
+// import * as utils from './../utils.js'
 import Alliance from './../alliance.js'
-import Tile from './tiles/tile.js'
-import Type from './../type.js'
-import WhitePlayer from './../players/white-player.js'
-import BlackPlayer from './../players/black-player.js'
+// import Tile from './tiles/tile.js'
+// import Type from './../type.js'
+// import WhitePlayer from './../players/white-player.js'
+// import BlackPlayer from './../players/black-player.js'
 import BoardBuilder from './board-builder.js'
-
-import Pawn from './../pieces/pawn.js'
-import Knight from './../pieces/knight.js'
-import Bishop from './../pieces/bishop.js'
+//
+// import Pawn from './../pieces/pawn.js'
+// import Knight from './../pieces/knight.js'
+// import Bishop from './../pieces/bishop.js'
 import Rook from './../pieces/rook.js'
-import Queen from './../pieces/queen.js'
-import King from './../pieces/king.js'
+// import Queen from './../pieces/queen.js'
+// import King from './../pieces/king.js'
 
 // Board.whiteView() =
 // _______________________________

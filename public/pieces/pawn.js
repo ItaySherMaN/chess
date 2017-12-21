@@ -4,64 +4,62 @@ import Alliance from '../alliance'
 import RegularMove from '../board/moves/regular-move'
 import AttackingMove from '../board/moves/attacking-move'
 
-const Pawn = Object.create(Piece)
+const Pawn = {
+	moveOffsets: [
+		{row: 1, col:  0},
+		{row: 1, col:  1},
+		{row: 1, col: -1}
+	],
 
-Pawn.moveOffsets = [
-	{row: 1, col: 0},
-	{row: 1, col: 1},
-	{row: 1, col: -1}
-]
+	init(row, col, alliance) {
+		this.parent(row, col, alliance)
+		this.isFirstMove = true
+	},
 
-Pawn.create = function(row, col, alliance) {
-	const obj = Object.create(this)
+	pseudoLegalMoves(board) {
+		const moves = []
+		const dir = Alliance.direction(this.alliance)
 
-	this.__proto__.super.call(obj, row, col, Type.PAWN, alliance)
-	obj.isFirstMove = true
+		let destRow, destCol
 
-	return obj
-}
+		this.moveOffsets.forEach(offset => {
+			destRow = this.row + offset.row * dir
+			destCol = this.col + offset.col
 
-Pawn.pseudoLegalMoves = function(board) {
-	const moves = []
-	const dir = Alliance.direction(this.alliance)
+			if (utilsjs.areValidCoordinates(destRow, destCol)) {
+				const destTile = board.get(destRow, destCol)
 
-	let destRow, destCol
-
-	this.moveOffsets.forEach(offset => {
-		destRow = this.row + offset.row * dir
-		destCol = this.col + offset.col
-
-		if (utilsjs.areValidCoordinates(destRow, destCol)) {
-			const destTile = board.get(destRow, destCol)
-
-			if (offset.col === 0) {
-				if (destTile.empty) {
-					moves.push(RegularMove.create(board, destRow, destCol, this))
+				if (offset.col === 0) {
+					if (destTile.empty) {
+						moves.push(RegularMove.create(board, destRow, destCol, this))
+					}
 				}
-			}
-			else {
-				if (!destTile.empty) {
-					const destPiece = destTile.piece
+				else {
+					if (!destTile.empty) {
+						const destPiece = destTile.piece
 
-					if (destPiece.alliance !== this.alliance) {
-						moves.push(AttackingMove.create(board, destRow, destCol, this, destPiece))
+						if (destPiece.alliance !== this.alliance) {
+							moves.push(AttackingMove.create(board, destRow, destCol, this, destPiece))
+						}
 					}
 				}
 			}
-		}
-	})
+		})
 
-	if (this.isFirstMove && this.row === Alliance.startingRow(this.alliance)) {
-		destRow = this.row + 2 * dir
-		destCol = this.col
+		if (this.isFirstMove && this.row === Alliance.startingRow(this.alliance)) {
+			destRow = this.row + 2 * dir
+			destCol = this.col
 
-		if (board.get(destRow, destCol).empty && board.get(destRow - dir, destCol).empty) {
-			moves.push(RegularMove.create(board, destRow, destCol, this))
+			if (board.get(destRow, destCol).empty && board.get(destRow - dir, destCol).empty) {
+				moves.push(RegularMove.create(board, destRow, destCol, this))
+			}
 		}
+
+		return moves
 	}
-
-	return moves
 }
+
+Pawn.extends(Piece)
 
 export default Pawn
 

@@ -1,11 +1,11 @@
 import Player from 'player'
 
-const BlackPlayer = Object.create(Player)
-
-BlackPlayer.create = function(board, legalMoves, opponentLegalMoves) {
-	const obj = Object.create(this)
-	this.__proto__.super.apply(obj, arguments)
-	return obj
+const BlackPlayer = {
+	init(board, legalMoves, opponentLegalMoves) {
+		this.parent(board, legalMoves, opponentLegalMoves)
+	}
 }
+
+BlackPlayer.extends(Player)
 
 export default BlackPlayer

@@ -1,5 +1,5 @@
 const Player = {
-	super: function(board, legalMoves, opponentLegalMoves) {
+	init(board, legalMoves, opponentLegalMoves) {
 		this.board = board
 		this.legalMoves = legalMoves
 	}

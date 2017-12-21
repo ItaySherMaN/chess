@@ -1,3 +1,4 @@
+// import './../../inheritance.js'
 import Piece from './piece.js'
 import * as utils from './../../utils.js'
 import RegularMove from './../../board/moves/regular-move.js'
@@ -39,7 +40,7 @@ const SlidingPiece = {
 	}
 }
 
-SlidingPiece.extend(Piece)
+SlidingPiece.extends(Piece)
 
 export default SlidingPiece
 

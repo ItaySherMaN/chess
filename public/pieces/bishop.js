@@ -3,10 +3,10 @@ import Type from './../type.js'
 
 const Bishop = {
 	moveOffsets: [
-		{row: -1, col: 1},
+		{row: -1, col:  1},
 		{row: -1, col: -1},
-		{row: 1, col: 1},
-		{row: 1, col: -1}
+		{row:  1, col:  1},
+		{row:  1, col: -1}
 	],
 
 	init(row, col, alliance) {
@@ -17,23 +17,6 @@ const Bishop = {
 Bishop.extends(SlidingPiece)
 
 export default Bishop
-
-// const Bishop = Object.create(SlidingPiece)
-//
-// Bishop.moveOffsets = [
-// 	{row: -1, col: 1},
-// 	{row: -1, col: -1},
-// 	{row: 1, col: 1},
-// 	{row: 1, col: -1}
-// ]
-//
-// Bishop.create = function(row, col, alliance) {
-// 	const obj = Object.create(this)
-// 	this.__proto__.super.call(obj, row, col, Type.BISHOP, alliance)
-// 	return obj
-// }
-//
-// export default Bishop
 
 /*
 

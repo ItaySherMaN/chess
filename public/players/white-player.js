@@ -1,11 +1,11 @@
 import Player from 'player'
 
-const WhitePlayer = Object.create(Player)
-
-WhitePlayer.create = function(board, legalMoves, opponentLegalMoves) {
-	const obj = Object.create(this)
-	this.__proto__.super.apply(obj, arguments)
-	return obj
+const WhitePlayer = {
+	init(board, legalMoves, opponentLegalMoves) {
+		this.parent(board, legalMoves, opponentLegalMoves)
+	}
 }
+
+WhitePlayer.extends(Player)
 
 export default WhitePlayer

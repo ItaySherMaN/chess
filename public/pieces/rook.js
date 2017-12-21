@@ -1,5 +1,17 @@
+import './../inheritance.js'
 import SlidingPiece from './general-pieces/sliding-piece.js'
 import Type from './../type.js'
+
+/*
+--x-----
+--x-----
+xxoxxxxx
+--x-----
+--x-----
+--x-----
+--x-----
+--x-----
+*/
 
 const Rook = {
 	moveOffsets: [
@@ -14,36 +26,6 @@ const Rook = {
 	}
 }
 
-Rook.extend(SlidingPiece)
+Rook.extends(SlidingPiece)
 
 export default Rook
-
-// const Rook = Object.create(SlidingPiece)
-//
-// Rook.moveOffsets = [
-// 	{row: 0, col: 1},
-// 	{row: 1, col: 0},
-// 	{row: 0, col: -1},
-// 	{row: -1, col: 0}
-// ]
-//
-// Rook.create = function(row, col, alliance) {
-// 	const obj = Object.create(this)
-// 	this.__proto__.super.call(obj, row, col, Type.ROOK, alliance)
-// 	return obj
-// }
-//
-// export default Rook
-
-/*
-
---x-----
---x-----
-xxoxxxxx
---x-----
---x-----
---x-----
---x-----
---x-----
-
-*/
