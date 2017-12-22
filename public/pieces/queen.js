@@ -1,5 +1,5 @@
 import SlidingPiece from './general-pieces/sliding-piece.js'
-import Type from '../type.js'
+import PieceType from '../piece-type.js'
 
 /*
 x----x--
@@ -25,7 +25,7 @@ const Queen = {
 	],
 
 	init(row, col, alliance) {
-		this.parent(row, col, Type.QUEEN, alliance, arguments)
+		this.parent(row, col, PieceType.QUEEN, alliance, arguments)
 	}
 }
 

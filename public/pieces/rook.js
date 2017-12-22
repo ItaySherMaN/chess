@@ -1,18 +1,5 @@
 import SlidingPiece from './general-pieces/sliding-piece.js'
-import Type from './../type.js'
-
-import Alliance from './../alliance.js'
-
-/*
---x-----
---x-----
-xxoxxxxx
---x-----
---x-----
---x-----
---x-----
---x-----
-*/
+import PieceType from './../piece-type.js'
 
 const Rook = {
 	moveOffsets: [
@@ -23,8 +10,7 @@ const Rook = {
 	],
 
 	init(row, col, alliance) {
-		console.log(row, col, alliance, arguments)
-		this.parent(row, col, Type.ROOK, alliance, arguments)
+		this.parent(row, col, PieceType.ROOK, alliance, arguments)
 	}
 }
 

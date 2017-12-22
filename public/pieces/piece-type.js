@@ -1,4 +1,4 @@
-const Type = {
+const PieceType = {
 	PAWN: 'P',
 	KNIGHT: 'N',
 	BISHOP: 'B',
@@ -7,4 +7,4 @@ const Type = {
 	KING: 'K'
 }
 
-export default Type
+export default PieceType

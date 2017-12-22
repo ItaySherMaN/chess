@@ -1,4 +1,4 @@
-import Type from './../type.js'
+import PieceType from './../piece-type.js'
 import Piece from './general-pieces/piece.js'
 import Alliance from './../alliance.js'
 import RegularMove from './../board/moves/regular-move.js'
@@ -24,7 +24,7 @@ const Pawn = {
 	],
 
 	init(row, col, alliance) {
-		this.parent(row, col, Type.PAWN, alliance, arguments)
+		this.parent(row, col, PieceType.PAWN, alliance, arguments)
 		this.isFirstMove = true
 	},
 

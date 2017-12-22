@@ -1,5 +1,5 @@
 import SteppingPiece from './general-pieces/stepping-piece.js'
-import Type from './../type.js'
+import PieceType from './../piece-type.js'
 
 /*
 --------
@@ -25,7 +25,7 @@ const King = {
 	],
 
 	init(row, col, alliance) {
-		this.parent(row, col, Type.KING, alliance, arguments)
+		this.parent(row, col, PieceType.KING, alliance, arguments)
 	}
 }
 
