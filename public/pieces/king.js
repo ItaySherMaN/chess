@@ -1,16 +1,5 @@
 import SteppingPiece from './general-pieces/stepping-piece.js'
-import PieceType from './../piece-type.js'
-
-/*
---------
---------
---------
--xxx----
--xox----
--xxx----
---------
---------
-*/
+import PieceType from './piece-type.js'
 
 const King = {
 	moveOffsets: [

@@ -1,16 +1,5 @@
 import SlidingPiece from './general-pieces/sliding-piece.js'
-import PieceType from '../piece-type.js'
-
-/*
-x----x--
--x---x--
---x--x--
----x-x-x
-----xxx-
-xxxxxoxx
-----xxx-
----x-x-x
-*/
+import PieceType from './piece-type.js'
 
 const Queen = {
 	moveOffsets: [

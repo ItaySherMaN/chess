@@ -1,5 +1,5 @@
 import SlidingPiece from './general-pieces/sliding-piece.js'
-import PieceType from './../piece-type.js'
+import PieceType from './piece-type.js'
 
 const Rook = {
 	moveOffsets: [

@@ -2,7 +2,7 @@ import utils from './../utils.js'
 import Alliance from './../alliance.js'
 import EmptyTile from './tiles/empty-tile.js'
 import OccupiedTile from './tiles/occupied-tile.js'
-import PieceType from './../piece-type.js'
+import PieceType from './../pieces/piece-type.js'
 import WhitePlayer from './../players/white-player.js'
 import BlackPlayer from './../players/black-player.js'
 import BoardBuilder from './board-builder.js'
@@ -37,21 +37,36 @@ ___|___|___|___|___|___|___|___
 ___|___|___|___|___|___|___|___
 */
 
+/*
+
+every board must have:
+	1. active pieces
+	2. opponent pieces
+	3. board tiles
+	4. opponent pseudo legal moves
+	5. status
+*/
+
 const Board = {
-	init(builder, whitePlayer, blackPlayer) {
+	init(builder, generateLegalMoves) {
 		this.turn = builder.turn
 		this.tiles = this.extractTiles(builder)
 
-		this.whitePlayer = whitePlayer
-		this.blackPlayer = blackPlayer
+		this.establishPieces(builder)
+		this.establishPseudoLegalMoves()
 
-		this.whitePieces = builder.whiteConfig
-		this.blackPieces = builder.blackConfig
+		if (generateLegalMoves) {
+			this.establishKing()
 
-		this.whiteKing = this.findKing(this.whitePieces)
-		this.blackKing = this.findKing(this.blackPieces)
+			this.establishOpponentPseudoLegalMoves()
+			this.establishLegalMoves()
 
-		this.status = this.calculateBoardStatus()
+			this.figureIfInCheck()
+			this.figureIfCanMove()
+		}
+		else {
+			this.establishOpponentKing()
+		}
 	},
 
 	createStandardBoardLayout() {
@@ -83,67 +98,69 @@ const Board = {
 		return builder.build()
 	},
 
-	calculateBoardStatus() {
-		let inCheck = false
+	establishPseudoLegalMoves() {
+		this.pseudoLegalMoves = []
 
-		if (this.turn === Alliance.WHITE) {
-			const pseudoLegalMoves = this.blackPlayer.pseudoLegalMoves
+		this.activePieces.forEach(piece => {
+			piece.pseudoLegalMoves(this).forEach(move => {
+				this.pseudoLegalMoves.push(move)
+			})
+		})
+	},
 
-			for (let i = 0; i < pseudoLegalMoves.length && !inCheck; i++) {
-				const move = pseudoLegalMoves[i]
+	establishOpponentPseudoLegalMoves() {
+		this.opponentPseudoLegalMoves = []
 
-				if (move.destRow === this.whiteKing.row) {
-					if (move.destCol === this.whiteKing.col) {
-						inCheck = true
-					}
-				}
+		this.opponentActivePieces.forEach(piece => {
+			piece.pseudoLegalMoves(this).forEach(move => {
+				this.opponentPseudoLegalMoves.push(move)
+			})
+		})
+	},
+
+	playMove() {
+		return null
+		// return Board.create(..., false)
+	},
+
+	establishLegalMoves() {
+		this.legalMoves = this.pseudoLegalMoves.filter(move => {
+			return !this.playMove(move).opponentInCheck
+		})
+	},
+
+	figureIfInCheck() {
+		this.inCheck = false
+
+		for (let i = 0; i < this.opponentPesudoLegalMoves.length; i++) {
+			const move = this.opponentPesudoLegalMoves[i]
+
+			if (move.destRow === this.king.row &&
+				move.destCol === this.king.col) {
+				this.inCheck = true
+				return
 			}
-
-			if (inCheck) {
-				if (this.whitePlayer.canMove()) {
-					return BoardStatus.WHITE_IN_CHECK
-				}
-				else {
-					return BoardStatus.WHITE_IN_CHECKMATE
-				}
-			}
-			else {
-				if (!this.whitePlayer.canMove()) {
-					return BoardStatus.STALEMATE
-				}
-			}
-
-			return BoardStatus.ON_GOING
 		}
-		else {
-			const pseudoLegalMoves = this.whitePlayer.pseudoLegalMoves
+	},
 
-			for (let i = 0; i < pseudoLegalMoves.length && !inCheck; i++) {
-				const move = pseudoLegalMoves[i]
+	figureIfOpponentInCheck() {
+		this.opponentInCheck = false
 
-				if (move.destRow === this.blackKing.row) {
-					if (move.destCol === this.blackKing.col) {
-						inCheck = true
-					}
+		for (let i = 0; i < this.pesudoLegalMoves.length; i++) {
+			const move = this.pesudoLegalMoves[i]
+
+			if (move.destRow === this.opponentKing.row &&
+				if (move.destCol === this.opponentKing.col) {
+					this.opponentInCheck = true
+					return
 				}
 			}
-
-			if (inCheck) {
-				if (this.blackPlayer.canMove()) {
-					return BoardStatus.BLACK_IN_CHECK
-				}
-				else {
-					return BoardStatus.BLACK_IN_CHECKMATE
-				}
-			}
-			else {
-				if (!this.blackPlayer.canMove()) {
-					return BoardStatus.STALEMATE
-				}
-			}
-			return BoardStatus.ON_GOING
 		}
-	}
+	},
+
+	canMove() {
+		this.legalMoves.length !== 0
+	},
 
 	extractTiles(builder) {
 		const tiles = new Array(utils.NUM_TILES)
@@ -165,27 +182,38 @@ const Board = {
 		return tiles
 	},
 
-	findKing(pieces) {
-		for (let i = 0; i < pieces.length; i++) {
+	establishPieces() {
+		if (this.turn === Alliance.WHITE) {
+			this.activePieces = builder.whiteConfig
+			this.opponentActivePieces = builder.blackConfig
+		}
+		else {
+			this.activePieces = builder.blackConfig
+			this.opponentActivePieces = builder.whiteConfig
+		}
+	},
+
+	establishKing() {
+		for (let i = 0; i < activePieces.length; i++) {
 			const piece = pieces[i]
 
 			if (piece.type === PieceType.KING) {
-				return piece
+				this.king = piece
+				return
 			}
 		}
 	},
 
-	// calculateLegalMoves(pieces) {
-	// 	const legalMoves = []
-    //
-	// 	pieces.forEach(piece => {
-	// 		piece.pseudoLegalMoves(this).forEach(move => {
-	// 			legalMoves.push(move)
-	// 		})
-	// 	})
-    //
-	// 	return legalMoves
-	// },
+	establishOpponentKing() {
+		for (let i = 0; i < opponentActivePieces.length; i++) {
+			const piece = pieces[i]
+
+			if (piece.type === PieceType.KING) {
+				this.oppnentKing = piece
+				return
+			}
+		}
+	}
 
 	get(row, col) {
 		return this.tiles[utils.index(row, col)]
@@ -198,8 +226,8 @@ const Board = {
 
 		let i, j
 
-		for (i = 7; i >= 0; i--) {
-			for (j = 0; j < 8; j++) {
+		for (i = utils.NUM_ROWS - 1; i >= 0; i--) {
+			for (j = 0; j < utils.NUM_COLS; j++) {
 				result += ' ' + this.tiles[utils.index(i, j)].toString() + ' '
 
 				if (j !== 7) {
@@ -220,8 +248,8 @@ const Board = {
 
 		let i, j
 
-		for (i = 0; i < 8; i++) {
-			for (j = 7; j >= 0; j--) {
+		for (i = 0; i < utils.NUM_ROWS; i++) {
+			for (j = utils.NUM_COLS - 1; j >= 0; j--) {
 				result += ' ' + this.tiles[utils.index(i, j)].toString() + ' '
 
 				if (j !== 0) {

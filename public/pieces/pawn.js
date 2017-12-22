@@ -1,20 +1,9 @@
-import PieceType from './../piece-type.js'
+import PieceType from './piece-type.js'
 import Piece from './general-pieces/piece.js'
 import Alliance from './../alliance.js'
 import RegularMove from './../board/moves/regular-move.js'
 import AttackingMove from './../board/moves/attacking-move.js'
 import utils from './../utils.js'
-
-/*
---------
---------
---------
---------
-----x---
----xxx--
-----o---
---------
-*/
 
 const Pawn = {
 	moveOffsets: [
