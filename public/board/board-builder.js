@@ -1,6 +1,3 @@
-import Alliance from './../alliance.js'
-import Board from './board.js'
-
 const BoardBuilder = {
 	init(turn) {
 		this.turn = turn
@@ -9,6 +6,7 @@ const BoardBuilder = {
 	},
 
 	addPiece(piece) {
+		import Alliance from './../alliance.js'
 		if (piece.alliance === Alliance.WHITE) {
 			this.whiteConfig.push(piece)
 		}
@@ -18,6 +16,7 @@ const BoardBuilder = {
 	},
 
 	build(generateLegalMoves) {
+		import Board from './board.js'
 		return Board.create(this, generateLegalMoves)
 	}
 }

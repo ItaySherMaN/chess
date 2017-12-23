@@ -1,8 +1,3 @@
-import Piece from './piece.js'
-import utils from './../../utils.js'
-import RegularMove from './../../moves/regular-move.js'
-import AttackingMove from './../../moves/attacking-move.js'
-
 const SteppingPiece = {
 	init(row, col, type, alliance) {
 		this.parent(row, col, type, alliance, arguments)
@@ -16,17 +11,15 @@ const SteppingPiece = {
 			const destCol = this.col + offset.col
 
 			if (utils.areValidCoordinates(destRow, destCol)) {
-				const destTile = board.get(destRow, destCol)
+				const destPiece = board.get(destRow, destCol)
 
-				if (destTile.empty()) {
-					moves.push(RegularMove.create(board, destRow, destCol, this))
-				}
-				else {
-					const destPiece = destTile.piece
-
+				if (destPiece) {
 					if (destPiece.alliance !== this.alliance) {
 						moves.push(AttackingMove.create(board, destRow, destCol, this, destPiece))
 					}
+				}
+				else {
+					moves.push(RegularMove.create(board, destRow, destCol, this))
 				}
 			}
 		})
@@ -34,6 +27,11 @@ const SteppingPiece = {
 		return moves
 	}
 }
+
+import Piece from './piece.js'
+import utils from './../../utils.js'
+import RegularMove from './../../moves/regular-move.js'
+import AttackingMove from './../../moves/attacking-move.js'
 
 SteppingPiece.extends(Piece)
 

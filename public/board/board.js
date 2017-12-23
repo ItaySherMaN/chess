@@ -1,56 +1,7 @@
-import utils from './../utils.js'
-import Alliance from './../alliance.js'
-import EmptyTile from './tiles/empty-tile.js'
-import OccupiedTile from './tiles/occupied-tile.js'
-import PieceType from './../pieces/piece-type.js'
-import WhitePlayer from './../players/white-player.js'
-import BlackPlayer from './../players/black-player.js'
-import BoardBuilder from './board-builder.js'
-import BoardStatus from './board-status.js'
-
-import Pawn from './../pieces/pawn.js'
-import Knight from './../pieces/knight.js'
-import Bishop from './../pieces/bishop.js'
-import Rook from './../pieces/rook.js'
-import Queen from './../pieces/queen.js'
-import King from './../pieces/king.js'
-
-/*
-Board.whiteViewToString() =
-
-_______________________________
- r | n | b | q | k | b | n | r
-___|___|___|___|___|___|___|___
- p | p | p | p | p | p | p | p
-___|___|___|___|___|___|___|___
-   |   |   |   |   |   |   |
-___|___|___|___|___|___|___|___
-   |   |   |   |   |   |   |
-___|___|___|___|___|___|___|___
-   |   |   |   |   |   |   |
-___|___|___|___|___|___|___|___
-   |   |   |   |   |   |   |
-___|___|___|___|___|___|___|___
- P | P | P | P | P | P | P | P
-___|___|___|___|___|___|___|___
- R | N | B | Q | K | B | N | R
-___|___|___|___|___|___|___|___
-*/
-
-/*
-
-every board must have:
-	1. active pieces
-	2. opponent pieces
-	3. board tiles
-	4. opponent pseudo legal moves
-	5. status
-*/
-
 const Board = {
 	init(builder, generateLegalMoves) {
 		this.turn = builder.turn
-		this.tiles = this.extractTiles(builder)
+		this.grid = this.extractGrid(builder)
 
 		this.establishPieces(builder)
 		this.establishPseudoLegalMoves()
@@ -72,7 +23,21 @@ const Board = {
 		}
 	},
 
+	nextTurn() {
+		import Alliance from './../alliance.js';
+		return this.turn === Alliance.WHITE ? Alliance.BLACK : Alliance.WHITE
+	},
+
 	createStandardBoardLayout() {
+		import Pawn from './../pieces/pawn.js'
+		import Knight from './../pieces/knight.js'
+		import Bishop from './../pieces/bishop.js'
+		import Rook from './../pieces/rook.js'
+		import Queen from './../pieces/queen.js'
+		import King from './../pieces/king.js'
+
+		import BoardBuilder from './board-builder.js'
+
 		const builder = BoardBuilder.create(Alliance.WHITE)
 
 		builder.addPiece(Rook  .create(0, 0, Alliance.WHITE))
@@ -114,7 +79,7 @@ const Board = {
 	establishOpponentPseudoLegalMoves() {
 		this.opponentPseudoLegalMoves = []
 
-		this.opponentActivePieces.forEach(piece => {
+		this.opponentPieces.forEach(piece => {
 			piece.pseudoLegalMoves(this).forEach(move => {
 				this.opponentPseudoLegalMoves.push(move)
 			})
@@ -170,38 +135,34 @@ const Board = {
 		this.inCheckmate = !this.canMove && this.inCheck
 	},
 
-	extractTiles(builder) {
-		const tiles = new Array(utils.NUM_TILES)
-
-		for (let i = 0; i < utils.NUM_TILES; i++) {
-			tiles[i] = EmptyTile.emptyTiles[i]
-		}
+	extractGrid(builder) {
+		import utils from './../utils.js'
+		const grid = new Array(utils.NUM_TILES)
 
 		builder.whiteConfig.forEach(piece => {
-			const index = utils.index(piece.row, piece.col)
-			tiles[index] = OccupiedTile.create(index, piece)
+			grid[utils.index(piece.row, piece.col)] = piece
 		})
 
 		builder.blackConfig.forEach(piece => {
-			const index = utils.index(piece.row, piece.col)
-			tiles[index] = OccupiedTile.create(index, piece)
+			grid[utils.index(piece.row, piece.col)] = piece
 		})
 
-		return tiles
+		return grid
 	},
 
 	establishPieces(builder) {
 		if (this.turn === Alliance.WHITE) {
 			this.activePieces = builder.whiteConfig
-			this.opponentActivePieces = builder.blackConfig
+			this.opponentPieces = builder.blackConfig
 		}
 		else {
 			this.activePieces = builder.blackConfig
-			this.opponentActivePieces = builder.whiteConfig
+			this.opponentPieces = builder.whiteConfig
 		}
 	},
 
 	establishKing() {
+		import PieceType from './../pieces/general-pieces/piece-type.js'
 		for (let i = 0; i < this.activePieces.length; i++) {
 			const piece = this.activePieces[i]
 
@@ -224,7 +185,7 @@ const Board = {
 	},
 
 	get(row, col) {
-		return this.tiles[utils.index(row, col)]
+		return this.grid[utils.index(row, col)]
 	},
 
 	whiteViewToString() {
@@ -236,7 +197,14 @@ const Board = {
 
 		for (i = utils.NUM_ROWS - 1; i >= 0; i--) {
 			for (j = 0; j < utils.NUM_COLS; j++) {
-				result += ' ' + this.tiles[utils.index(i, j)].toString() + ' '
+				const piece = this.grid[utils.index(i, j)]
+
+				if (piece) {
+					result += ' ' + piece.toString() + ' '
+				}
+				else {
+					result += '   '
+				}
 
 				if (j !== 7) {
 					result += '|'
@@ -258,7 +226,14 @@ const Board = {
 
 		for (i = 0; i < utils.NUM_ROWS; i++) {
 			for (j = utils.NUM_COLS - 1; j >= 0; j--) {
-				result += ' ' + this.tiles[utils.index(i, j)].toString() + ' '
+				const piece = this.grid[utils.index(i, j)]
+
+				if (piece) {
+					result += ' ' + piece.toString() + ' '
+				}
+				else {
+					result += '   '
+				}
 
 				if (j !== 0) {
 					result += '|'

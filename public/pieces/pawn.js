@@ -1,4 +1,4 @@
-import PieceType from './piece-type.js'
+import PieceType from './general-pieces/piece-type.js'
 import Piece from './general-pieces/piece.js'
 import Alliance from './../alliance.js'
 import RegularMove from './../moves/regular-move.js'
@@ -28,31 +28,29 @@ const Pawn = {
 			destCol = this.col + offset.col
 
 			if (utils.areValidCoordinates(destRow, destCol)) {
-				const destTile = board.get(destRow, destCol)
+				const destPiece = board.get(destRow, destCol)
 
-				if (offset.col === 0) {
-					if (destTile.empty) {
-						moves.push(RegularMove.create(board, destRow, destCol, this))
+				if (destPiece) {
+					if (destPiece.alliance !== this.alliance) {
+						moves.push(AttackingMove.create(board, destRow, destCol, this, destPiece))
 					}
 				}
 				else {
-					if (!destTile.empty) {
-						const destPiece = destTile.piece
-
-						if (destPiece.alliance !== this.alliance) {
-							moves.push(AttackingMove.create(board, destRow, destCol, this, destPiece))
-						}
+					if (offset.col === 0) {
+						moves.push(RegularMove.create(board, destRow, destCol, this))
 					}
 				}
 			}
 		})
 
-		if (this.isFirstMove && this.row === Alliance.startingRow(this.alliance)) {
+		if (this.isFirstMove && this.row === Alliance.startingPawnRow(this.alliance)) {
 			destRow = this.row + 2 * dir
 			destCol = this.col
 
-			if (board.get(destRow, destCol).empty && board.get(destRow - dir, destCol).empty) {
-				moves.push(RegularMove.create(board, destRow, destCol, this))
+			if (!board.get(destRow, destCol)) {
+				if (!board.get(destRow - dir, destCol)) {
+					moves.push(RegularMove.create(board, destRow, destCol, this))
+				}
 			}
 		}
 

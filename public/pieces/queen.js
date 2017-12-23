@@ -1,6 +1,3 @@
-import SlidingPiece from './general-pieces/sliding-piece.js'
-import PieceType from './piece-type.js'
-
 const Queen = {
 	moveOffsets: [
 		{row:  1, col:  0},
@@ -19,5 +16,8 @@ const Queen = {
 }
 
 Queen.extends(SlidingPiece)
+
+import SlidingPiece from './general-pieces/sliding-piece.js'
+import PieceType from './general-pieces/piece-type.js'
 
 export default Queen

@@ -1,6 +1,3 @@
-import SteppingPiece from './general-pieces/stepping-piece.js'
-import PieceType from './piece-type.js'
-
 const Knight = {
 	moveOffsets: [
 		{row:  2, col:  1},
@@ -17,6 +14,9 @@ const Knight = {
 		this.parent(row, col, PieceType.KNIGHT, alliance, arguments)
 	}
 }
+
+import SteppingPiece from './general-pieces/stepping-piece.js'
+import PieceType from './general-pieces/piece-type.js'
 
 Knight.extends(SteppingPiece)
 

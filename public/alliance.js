@@ -6,7 +6,7 @@ const Alliance = {
 		return alliance === this.WHITE ? 1 : -1
 	},
 
-	startingRow: function(alliance) {
+	startingPawnRow: function(alliance) {
 		return alliance === this.WHITE ? 1 : 6
 	}
 }
