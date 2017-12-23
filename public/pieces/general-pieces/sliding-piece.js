@@ -1,7 +1,7 @@
 import Piece from './piece.js'
 import utils from './../../utils.js'
-import RegularMove from './../../board/moves/regular-move.js'
-import AttackingMove from './../../board/moves/attacking-move.js'
+import RegularMove from './../../moves/regular-move.js'
+import AttackingMove from './../../moves/attacking-move.js'
 
 const SlidingPiece = {
 	init(row, col, type, alliance) {

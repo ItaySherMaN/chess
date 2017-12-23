@@ -17,8 +17,8 @@ const BoardBuilder = {
 		}
 	},
 
-	build() {
-		return Board.create(this)
+	build(generateLegalMoves) {
+		return Board.create(this, generateLegalMoves)
 	}
 }
 

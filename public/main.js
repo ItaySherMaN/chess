@@ -12,3 +12,5 @@ g.fillRect(0, 0, width, height)
 const board = Board.standardBoardLayout
 
 console.log(board.whiteViewToString())
+
+console.log(board)

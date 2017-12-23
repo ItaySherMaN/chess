@@ -63,9 +63,12 @@ const Board = {
 
 			this.figureIfInCheck()
 			this.figureIfCanMove()
+			this.figureIfInCheckmate()
+			this.figureIfInStalemate()
 		}
 		else {
 			this.establishOpponentKing()
+			this.figureIfOpponentInCheck()
 		}
 	},
 
@@ -95,7 +98,7 @@ const Board = {
 		builder.addPiece(Knight.create(7, 6, Alliance.BLACK))
 		builder.addPiece(Rook  .create(7, 7, Alliance.BLACK))
 
-		return builder.build()
+		return builder.build(true)
 	},
 
 	establishPseudoLegalMoves() {
@@ -118,27 +121,24 @@ const Board = {
 		})
 	},
 
-	playMove() {
-		return null
-		// return Board.create(..., false)
-	},
-
 	establishLegalMoves() {
 		this.legalMoves = this.pseudoLegalMoves.filter(move => {
-			return !this.playMove(move).opponentInCheck
+			// return !move.execute().opponentInCheck
+			return true
 		})
 	},
 
 	figureIfInCheck() {
 		this.inCheck = false
 
-		for (let i = 0; i < this.opponentPesudoLegalMoves.length; i++) {
-			const move = this.opponentPesudoLegalMoves[i]
+		for (let i = 0; i < this.opponentPseudoLegalMoves.length; i++) {
+			const move = this.opponentPseudoLegalMoves[i]
 
-			if (move.destRow === this.king.row &&
-				move.destCol === this.king.col) {
-				this.inCheck = true
-				return
+			if (move.destRow === this.king.row) {
+				if (move.destCol === this.king.col) {
+					this.inCheck = true
+					return
+				}
 			}
 		}
 	},
@@ -146,10 +146,10 @@ const Board = {
 	figureIfOpponentInCheck() {
 		this.opponentInCheck = false
 
-		for (let i = 0; i < this.pesudoLegalMoves.length; i++) {
-			const move = this.pesudoLegalMoves[i]
+		for (let i = 0; i < this.pseudoLegalMoves.length; i++) {
+			const move = this.pseudoLegalMoves[i]
 
-			if (move.destRow === this.opponentKing.row &&
+			if (move.destRow === this.opponentKing.row) {
 				if (move.destCol === this.opponentKing.col) {
 					this.opponentInCheck = true
 					return
@@ -158,8 +158,16 @@ const Board = {
 		}
 	},
 
-	canMove() {
-		this.legalMoves.length !== 0
+	figureIfCanMove() {
+		this.canMove = this.legalMoves.length !== 0
+	},
+
+	figureIfInStalemate() {
+		this.inStalemate = !this.canMove && !this.inCheck
+	},
+
+	figureIfInCheckmate() {
+		this.inCheckmate = !this.canMove && this.inCheck
 	},
 
 	extractTiles(builder) {
@@ -182,7 +190,7 @@ const Board = {
 		return tiles
 	},
 
-	establishPieces() {
+	establishPieces(builder) {
 		if (this.turn === Alliance.WHITE) {
 			this.activePieces = builder.whiteConfig
 			this.opponentActivePieces = builder.blackConfig
@@ -194,8 +202,8 @@ const Board = {
 	},
 
 	establishKing() {
-		for (let i = 0; i < activePieces.length; i++) {
-			const piece = pieces[i]
+		for (let i = 0; i < this.activePieces.length; i++) {
+			const piece = this.activePieces[i]
 
 			if (piece.type === PieceType.KING) {
 				this.king = piece
@@ -213,7 +221,7 @@ const Board = {
 				return
 			}
 		}
-	}
+	},
 
 	get(row, col) {
 		return this.tiles[utils.index(row, col)]
