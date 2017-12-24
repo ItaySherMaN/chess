@@ -15,9 +15,4 @@ const Knight = {
 	}
 }
 
-import SteppingPiece from './general-pieces/stepping-piece.js'
-import PieceType from './general-pieces/piece-type.js'
-
 Knight.extends(SteppingPiece)
-
-export default Knight

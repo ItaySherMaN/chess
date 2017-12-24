@@ -1,5 +1,3 @@
-import Move from './move.js'
-
 const AttackingMove = {
 	init(board, destRow, destCol, movedPiece, attackedPiece) {
 		this.parent(board, destRow, destCol, movedPiece, arguments)
@@ -12,5 +10,3 @@ const AttackingMove = {
 }
 
 AttackingMove.extends(Move)
-
-export default AttackingMove

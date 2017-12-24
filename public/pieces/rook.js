@@ -12,8 +12,3 @@ const Rook = {
 }
 
 Rook.extends(SlidingPiece)
-
-import SlidingPiece from './general-pieces/sliding-piece.js'
-import PieceType from './general-pieces/piece-type.js'
-
-export default Rook

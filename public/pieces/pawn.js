@@ -1,10 +1,3 @@
-import PieceType from './general-pieces/piece-type.js'
-import Piece from './general-pieces/piece.js'
-import Alliance from './../alliance.js'
-import RegularMove from './../moves/regular-move.js'
-import AttackingMove from './../moves/attacking-move.js'
-import utils from './../utils.js'
-
 const Pawn = {
 	moveOffsets: [
 		{row: 1, col:  0},
@@ -59,5 +52,3 @@ const Pawn = {
 }
 
 Pawn.extends(Piece)
-
-export default Pawn

@@ -4,5 +4,3 @@ const Player = {
 		this.alliance = alliance
 	}
 }
-
-export default Player

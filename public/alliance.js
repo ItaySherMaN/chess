@@ -10,5 +10,3 @@ const Alliance = {
 		return alliance === this.WHITE ? 1 : 6
 	}
 }
-
-export default Alliance

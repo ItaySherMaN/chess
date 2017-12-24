@@ -1,6 +1,3 @@
-import Player from './player.js'
-import Alliance from './../alliance.js'
-
 const WhitePlayer = {
 	init(game) {
 		this.parent(game, Alliance.WHITE, arguments)
@@ -8,5 +5,3 @@ const WhitePlayer = {
 }
 
 WhitePlayer.extends(Player)
-
-export default WhitePlayer

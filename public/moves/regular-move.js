@@ -4,7 +4,6 @@ const RegularMove = {
 	},
 
 	execute(generateLegalMoves) {
-		import BoardBuilder from './../board/board-builder.js'
 		const builder = BoardBuilder.create(this.board.nextTurn())
 
 		this.board.activePieces.forEach(piece => {
@@ -17,14 +16,14 @@ const RegularMove = {
 			builder.addPiece(piece)
 		})
 
-		import Cache from './../cache.js'
-
 		builder.addPiece(
 			Cache.pieces
 				[this.movedPiece.type]
 					[this.movedPiece.alliance]
 						[utils.index(this.destRow, this.destCol)]
 		)
+
+		return builder.build(generateLegalMoves)
 	},
 
 	isAttackingMove() {
@@ -32,8 +31,4 @@ const RegularMove = {
 	}
 }
 
-import Move from './move.js'
-
 RegularMove.extends(Move)
-
-export default RegularMove

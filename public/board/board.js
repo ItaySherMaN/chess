@@ -24,46 +24,7 @@ const Board = {
 	},
 
 	nextTurn() {
-		import Alliance from './../alliance.js';
 		return this.turn === Alliance.WHITE ? Alliance.BLACK : Alliance.WHITE
-	},
-
-	createStandardBoardLayout() {
-		import Pawn from './../pieces/pawn.js'
-		import Knight from './../pieces/knight.js'
-		import Bishop from './../pieces/bishop.js'
-		import Rook from './../pieces/rook.js'
-		import Queen from './../pieces/queen.js'
-		import King from './../pieces/king.js'
-
-		import BoardBuilder from './board-builder.js'
-
-		const builder = BoardBuilder.create(Alliance.WHITE)
-
-		builder.addPiece(Rook  .create(0, 0, Alliance.WHITE))
-		builder.addPiece(Knight.create(0, 1, Alliance.WHITE))
-		builder.addPiece(Bishop.create(0, 2, Alliance.WHITE))
-		builder.addPiece(Queen .create(0, 3, Alliance.WHITE))
-		builder.addPiece(King  .create(0, 4, Alliance.WHITE))
-		builder.addPiece(Bishop.create(0, 5, Alliance.WHITE))
-		builder.addPiece(Knight.create(0, 6, Alliance.WHITE))
-		builder.addPiece(Rook  .create(0, 7, Alliance.WHITE))
-
-		for (let i = 0; i < 8; i++) {
-			builder.addPiece(Pawn.create(1, i, Alliance.WHITE))
-			builder.addPiece(Pawn.create(6, i, Alliance.BLACK))
-		}
-
-		builder.addPiece(Rook  .create(7, 0, Alliance.BLACK))
-		builder.addPiece(Knight.create(7, 1, Alliance.BLACK))
-		builder.addPiece(Bishop.create(7, 2, Alliance.BLACK))
-		builder.addPiece(Queen .create(7, 3, Alliance.BLACK))
-		builder.addPiece(King  .create(7, 4, Alliance.BLACK))
-		builder.addPiece(Bishop.create(7, 5, Alliance.BLACK))
-		builder.addPiece(Knight.create(7, 6, Alliance.BLACK))
-		builder.addPiece(Rook  .create(7, 7, Alliance.BLACK))
-
-		return builder.build(true)
 	},
 
 	establishPseudoLegalMoves() {
@@ -88,8 +49,8 @@ const Board = {
 
 	establishLegalMoves() {
 		this.legalMoves = this.pseudoLegalMoves.filter(move => {
-			// return !move.execute().opponentInCheck
-			return true
+			console.log(move.execute().whiteViewToString())
+			return !move.execute().opponentInCheck
 		})
 	},
 
@@ -136,7 +97,6 @@ const Board = {
 	},
 
 	extractGrid(builder) {
-		import utils from './../utils.js'
 		const grid = new Array(utils.NUM_TILES)
 
 		builder.whiteConfig.forEach(piece => {
@@ -162,7 +122,6 @@ const Board = {
 	},
 
 	establishKing() {
-		import PieceType from './../pieces/general-pieces/piece-type.js'
 		for (let i = 0; i < this.activePieces.length; i++) {
 			const piece = this.activePieces[i]
 
@@ -174,11 +133,11 @@ const Board = {
 	},
 
 	establishOpponentKing() {
-		for (let i = 0; i < opponentActivePieces.length; i++) {
-			const piece = pieces[i]
+		for (let i = 0; i < this.opponentPieces.length; i++) {
+			const piece = this.opponentPieces[i]
 
 			if (piece.type === PieceType.KING) {
-				this.oppnentKing = piece
+				this.opponentKing = piece
 				return
 			}
 		}
@@ -246,7 +205,3 @@ const Board = {
 		return result
 	}
 }
-
-export default Board
-
-Board.standardBoardLayout = Board.createStandardBoardLayout()

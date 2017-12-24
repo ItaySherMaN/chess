@@ -15,9 +15,4 @@ const King = {
 	}
 }
 
-import SteppingPiece from './general-pieces/stepping-piece.js'
-import PieceType from './general-pieces/piece-type.js'
-
 King.extends(SteppingPiece)
-
-export default King

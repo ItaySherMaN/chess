@@ -6,5 +6,3 @@ const PieceType = {
 	QUEEN: 'Q',
 	KING: 'K'
 }
-
-export default PieceType

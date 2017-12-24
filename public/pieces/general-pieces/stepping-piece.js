@@ -28,11 +28,4 @@ const SteppingPiece = {
 	}
 }
 
-import Piece from './piece.js'
-import utils from './../../utils.js'
-import RegularMove from './../../moves/regular-move.js'
-import AttackingMove from './../../moves/attacking-move.js'
-
 SteppingPiece.extends(Piece)
-
-export default SteppingPiece
