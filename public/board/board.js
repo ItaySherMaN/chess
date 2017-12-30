@@ -49,7 +49,6 @@ const Board = {
 
 	establishLegalMoves() {
 		this.legalMoves = this.pseudoLegalMoves.filter(move => {
-			console.log(move.execute().whiteViewToString())
 			return !move.execute().opponentInCheck
 		})
 	},
