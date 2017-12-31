@@ -1,5 +1,5 @@
 const Board = {
-	init(builder, generateLegalMoves) {
+	init: function(builder, generateLegalMoves) {
 		this.turn = builder.turn
 		this.grid = this.extractGrid(builder)
 
@@ -23,11 +23,11 @@ const Board = {
 		}
 	},
 
-	nextTurn() {
+	nextTurn: function() {
 		return this.turn === Alliance.WHITE ? Alliance.BLACK : Alliance.WHITE
 	},
 
-	establishPseudoLegalMoves() {
+	establishPseudoLegalMoves: function() {
 		this.pseudoLegalMoves = []
 
 		this.activePieces.forEach(piece => {
@@ -37,7 +37,7 @@ const Board = {
 		})
 	},
 
-	establishOpponentPseudoLegalMoves() {
+	establishOpponentPseudoLegalMoves: function() {
 		this.opponentPseudoLegalMoves = []
 
 		this.opponentPieces.forEach(piece => {
@@ -47,56 +47,46 @@ const Board = {
 		})
 	},
 
-	establishLegalMoves() {
+	establishLegalMoves: function() {
 		this.legalMoves = this.pseudoLegalMoves.filter(move => {
-			return !move.execute().opponentInCheck
+			if (move.isCastlingMove()) {
+				return !move.execute(false).pseudoLegalMoves.some(newMove => {
+					return move.pathVector.some(pos => {
+						pos.row === newMove.destRow &&
+						pos.col === newMove.destCol
+					})
+				})
+			}
+			return !move.execute(false).opponentInCheck
 		})
 	},
 
-	figureIfInCheck() {
-		this.inCheck = false
-
-		for (let i = 0; i < this.opponentPseudoLegalMoves.length; i++) {
-			const move = this.opponentPseudoLegalMoves[i]
-
-			if (move.destRow === this.king.row) {
-				if (move.destCol === this.king.col) {
-					this.inCheck = true
-					return
-				}
-			}
-		}
+	figureIfInCheck: function() {
+		this.inCheck = this.opponentPseudoLegalMoves.some(move => {
+			return move.attackedPiece === this.king
+		})
 	},
 
-	figureIfOpponentInCheck() {
-		this.opponentInCheck = false
-
-		for (let i = 0; i < this.pseudoLegalMoves.length; i++) {
-			const move = this.pseudoLegalMoves[i]
-
-			if (move.destRow === this.opponentKing.row) {
-				if (move.destCol === this.opponentKing.col) {
-					this.opponentInCheck = true
-					return
-				}
-			}
-		}
+	figureIfOpponentInCheck: function() {
+		this.opponentInCheck = this.pseudoLegalMoves.some(move => {
+			return move.attackedPiece === this.opponentKing
+		})
 	},
 
-	figureIfCanMove() {
+	figureIfCanMove: function() {
 		this.canMove = this.legalMoves.length !== 0
 	},
 
-	figureIfInStalemate() {
+	figureIfInStalemate: function() {
 		this.inStalemate = !this.canMove && !this.inCheck
 	},
 
-	figureIfInCheckmate() {
+	figureIfInCheckmate: function() {
 		this.inCheckmate = !this.canMove && this.inCheck
 	},
 
-	extractGrid(builder) {
-		const grid = new Array(utils.NUM_TILES)
+	extractGrid: function(builder) {
+		const grid = new Array(utils.NUM_TILES).fill(null)
 
 		builder.whiteConfig.forEach(piece => {
 			grid[utils.index(piece.row, piece.col)] = piece
@@ -109,7 +99,7 @@ const Board = {
 		return grid
 	},
 
-	establishPieces(builder) {
+	establishPieces: function(builder) {
 		if (this.turn === Alliance.WHITE) {
 			this.activePieces = builder.whiteConfig
 			this.opponentPieces = builder.blackConfig
@@ -120,85 +110,63 @@ const Board = {
 		}
 	},
 
-	establishKing() {
-		for (let i = 0; i < this.activePieces.length; i++) {
-			const piece = this.activePieces[i]
-
+	establishKing: function() {
+		this.activePieces.forEach(piece => {
 			if (piece.type === PieceType.KING) {
 				this.king = piece
 				return
 			}
-		}
+		})
 	},
 
-	establishOpponentKing() {
-		for (let i = 0; i < this.opponentPieces.length; i++) {
-			const piece = this.opponentPieces[i]
-
+	establishOpponentKing: function() {
+		this.opponentPieces.forEach(piece => {
 			if (piece.type === PieceType.KING) {
 				this.opponentKing = piece
 				return
 			}
-		}
+		})
 	},
 
-	get(row, col) {
+	get: function(row, col) {
 		return this.grid[utils.index(row, col)]
 	},
 
-	whiteViewToString() {
+	whiteViewToString: function() {
 		let result = '_______________________________\n'
 
-		const seperation = '\n___|___|___|___|___|___|___|___\n'
-
-		let i, j
-
-		for (i = utils.NUM_ROWS - 1; i >= 0; i--) {
-			for (j = 0; j < utils.NUM_COLS; j++) {
+		for (let i = utils.NUM_ROWS - 1; i >= 0; i--) {
+			for (let j = 0; j < utils.NUM_COLS; j++) {
 				const piece = this.grid[utils.index(i, j)]
 
-				if (piece) {
-					result += ' ' + piece.toString() + ' '
-				}
-				else {
-					result += '   '
-				}
+				result += ' ' + (piece !== null ? piece.toString() : ' ') + ' '
 
 				if (j !== 7) {
 					result += '|'
 				}
 			}
 
-			result += seperation
+			result += '\n___|___|___|___|___|___|___|___\n'
 		}
 
 		return result
 	},
 
-	blackViewToString() {
+	blackViewToString: function() {
 		let result = '_______________________________\n'
 
-		const seperation = '\n___|___|___|___|___|___|___|___\n'
-
-		let i, j
-
-		for (i = 0; i < utils.NUM_ROWS; i++) {
-			for (j = utils.NUM_COLS - 1; j >= 0; j--) {
+		for (let i = 0; i < utils.NUM_ROWS; i++) {
+			for (let j = utils.NUM_COLS - 1; j >= 0; j--) {
 				const piece = this.grid[utils.index(i, j)]
 
-				if (piece) {
-					result += ' ' + piece.toString() + ' '
-				}
-				else {
-					result += '   '
-				}
+				result += ' ' + (piece !== null ? piece.toString() : ' ') + ' '
 
 				if (j !== 0) {
 					result += '|'
 				}
 			}
 
-			result += seperation
+			result += '\n___|___|___|___|___|___|___|___\n'
 		}
 
 		return result

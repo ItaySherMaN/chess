@@ -1,11 +1,12 @@
 const BoardBuilder = {
-	init(turn) {
+	init: function(turn) {
 		this.turn = turn
+		this.enPassantPawn = null
 		this.whiteConfig = []
 		this.blackConfig = []
 	},
 
-	addPiece(piece) {
+	addPiece: function(piece) {
 		if (piece.alliance === Alliance.WHITE) {
 			this.whiteConfig.push(piece)
 		}
@@ -14,7 +15,7 @@ const BoardBuilder = {
 		}
 	},
 
-	build(generateLegalMoves) {
+	build: function(generateLegalMoves) {
 		return Board.create(this, generateLegalMoves)
 	}
 }
@@ -22,28 +23,28 @@ const BoardBuilder = {
 BoardBuilder.standardBoardLayout = (function() {
 	const builder = BoardBuilder.create(Alliance.WHITE)
 
-	builder.addPiece(Cache.pieces[PieceType.ROOK  ][Alliance.WHITE][utils.index(0, 0)])
-	builder.addPiece(Cache.pieces[PieceType.KNIGHT][Alliance.WHITE][utils.index(0, 1)])
-	builder.addPiece(Cache.pieces[PieceType.BISHOP][Alliance.WHITE][utils.index(0, 2)])
-	builder.addPiece(Cache.pieces[PieceType.QUEEN ][Alliance.WHITE][utils.index(0, 3)])
-	builder.addPiece(Cache.pieces[PieceType.KING  ][Alliance.WHITE][utils.index(0, 4)])
-	builder.addPiece(Cache.pieces[PieceType.BISHOP][Alliance.WHITE][utils.index(0, 5)])
-	builder.addPiece(Cache.pieces[PieceType.KNIGHT][Alliance.WHITE][utils.index(0, 6)])
-	builder.addPiece(Cache.pieces[PieceType.ROOK  ][Alliance.WHITE][utils.index(0, 7)])
+	builder.addPiece(Cache.getNew(PieceType.ROOK  , Alliance.WHITE, 0, 0))
+	builder.addPiece(Cache.getNew(PieceType.KNIGHT, Alliance.WHITE, 0, 1))
+	builder.addPiece(Cache.getNew(PieceType.BISHOP, Alliance.WHITE, 0, 2))
+	builder.addPiece(Cache.getNew(PieceType.QUEEN , Alliance.WHITE, 0, 3))
+	builder.addPiece(Cache.getNew(PieceType.KING  , Alliance.WHITE, 0, 4))
+	builder.addPiece(Cache.getNew(PieceType.BISHOP, Alliance.WHITE, 0, 5))
+	builder.addPiece(Cache.getNew(PieceType.KNIGHT, Alliance.WHITE, 0, 6))
+	builder.addPiece(Cache.getNew(PieceType.ROOK  , Alliance.WHITE, 0, 7))
 
 	for (let i = 0; i < utils.NUM_COLS; i++) {
-		builder.addPiece(Cache.pieces[PieceType.PAWN][Alliance.WHITE][utils.index(1, i)])
-		builder.addPiece(Cache.pieces[PieceType.PAWN][Alliance.BLACK][utils.index(6, i)])
+		builder.addPiece(Cache.getNew(PieceType.PAWN, Alliance.WHITE, 1, i))
+		builder.addPiece(Cache.getNew(PieceType.PAWN, Alliance.BLACK, 6, i))
 	}
 
-	builder.addPiece(Cache.pieces[PieceType.ROOK  ][Alliance.BLACK][utils.index(7, 0)])
-	builder.addPiece(Cache.pieces[PieceType.KNIGHT][Alliance.BLACK][utils.index(7, 1)])
-	builder.addPiece(Cache.pieces[PieceType.BISHOP][Alliance.BLACK][utils.index(7, 2)])
-	builder.addPiece(Cache.pieces[PieceType.QUEEN ][Alliance.BLACK][utils.index(7, 3)])
-	builder.addPiece(Cache.pieces[PieceType.KING  ][Alliance.BLACK][utils.index(7, 4)])
-	builder.addPiece(Cache.pieces[PieceType.BISHOP][Alliance.BLACK][utils.index(7, 5)])
-	builder.addPiece(Cache.pieces[PieceType.KNIGHT][Alliance.BLACK][utils.index(7, 6)])
-	builder.addPiece(Cache.pieces[PieceType.ROOK  ][Alliance.BLACK][utils.index(7, 7)])
+	builder.addPiece(Cache.getNew(PieceType.ROOK  , Alliance.BLACK, 7, 0))
+	builder.addPiece(Cache.getNew(PieceType.KNIGHT, Alliance.BLACK, 7, 1))
+	builder.addPiece(Cache.getNew(PieceType.BISHOP, Alliance.BLACK, 7, 2))
+	builder.addPiece(Cache.getNew(PieceType.QUEEN , Alliance.BLACK, 7, 3))
+	builder.addPiece(Cache.getNew(PieceType.KING  , Alliance.BLACK, 7, 4))
+	builder.addPiece(Cache.getNew(PieceType.BISHOP, Alliance.BLACK, 7, 5))
+	builder.addPiece(Cache.getNew(PieceType.KNIGHT, Alliance.BLACK, 7, 6))
+	builder.addPiece(Cache.getNew(PieceType.ROOK  , Alliance.BLACK, 7, 7))
 
 	return builder.build(true)
 })()

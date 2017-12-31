@@ -1,9 +1,9 @@
 const SlidingPiece = {
-	init(row, col, type, alliance) {
-		this.parent(row, col, type, alliance, arguments)
+	init: function(row, col, type, alliance, isFirstMove) {
+		this.parent(row, col, type, alliance, isFirstMove, arguments)
 	},
 
-	pseudoLegalMoves(board) {
+	pseudoLegalMoves: function(board) {
 		const moves = []
 
 		this.moveOffsets.forEach(offset => {
@@ -15,12 +15,12 @@ const SlidingPiece = {
 
 				if (destPiece) {
 					if (destPiece.alliance !== this.alliance) {
-						moves.push(AttackingMove.create(board, destRow, destCol, this, destPiece))
+						moves.push(AttackingMove.create(board, this, destPiece, destRow, destCol))
 					}
 					break
 				}
 				else {
-					moves.push(RegularMove.create(board, destRow, destCol, this))
+					moves.push(RegularMove.create(board, this, destRow, destCol))
 				}
 
 				destRow += offset.row

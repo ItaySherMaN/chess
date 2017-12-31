@@ -6,8 +6,8 @@ const Rook = {
 		{row: -1, col: 0}
 	],
 
-	init(row, col, alliance) {
-		this.parent(row, col, PieceType.ROOK, alliance, arguments)
+	init: function(row, col, alliance, isFirstMove) {
+		this.parent(row, col, PieceType.ROOK, alliance, isFirstMove, arguments)
 	}
 }
 

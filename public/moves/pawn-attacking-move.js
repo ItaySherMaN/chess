@@ -1,4 +1,4 @@
-const AttackingMove = {
+const PawnAttackingMove = {
 	init: function(board, movedPiece, attackedPiece, destRow, destCol) {
 		this.parent(board, movedPiece, destRow, destCol, arguments)
 		this.attackedPiece = attackedPiece
@@ -9,4 +9,4 @@ const AttackingMove = {
 	}
 }
 
-AttackingMove.extends(Move)
+PawnAttackingMove.extends(Move)

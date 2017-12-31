@@ -3,20 +3,20 @@ const utils = {
 	NUM_ROWS: 8,
 	NUM_COLS: 8,
 
-	areValidCoordinates(row, col) {
+	areValidCoordinates: function(row, col) {
 		return row >= 0 && row < this.NUM_ROWS &&
 			   col >= 0 && col < this.NUM_COLS
 	},
 
-	index(row, col) {
+	index: function(row, col) {
 		return this.NUM_COLS * row + col
 	},
 
-	row(index) {
+	row: function(index) {
 		return index / 8 | 0
 	},
 
-	col(index) {
+	col: function(index) {
 		return index % 8
 	}
 }

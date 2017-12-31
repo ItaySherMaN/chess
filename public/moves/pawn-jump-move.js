@@ -1,17 +1,6 @@
-const Move = {
-	init: function(board, movedPiece, destRow, destCol) {
-		this.board = board
-		this.movedPiece = movedPiece
-		this.destRow = destRow
-		this.destCol = destCol
-	},
-
-	isAttacking: function() {
-		return false
-	},
-
-	isCastlingMove: function() {
-		return false
+const PawnJumpMove = {
+	init: function(board, movedPawn, destRow, destCol) {
+		this.parent(board, movedPawn, destRow, destCol, arguments)
 	},
 
 	execute: function(generateLegalMoves) {
@@ -27,13 +16,18 @@ const Move = {
 			builder.addPiece(piece)
 		})
 
-		builder.addPiece(Cache.getUsed(
-			this.movedPiece.type,
+		const newPawn = Cache.getUsed(
+			PieceType.PAWN,
 			this.movedPiece.alliance,
 			this.destRow,
 			this.destCol
-		))
+		)
+
+		builder.addPiece(newPawn)
+		builder.enPassantPawn = newPawn
 
 		return builder.build(generateLegalMoves)
 	}
 }
+
+PawnJumpMove.extends(RegularMove)

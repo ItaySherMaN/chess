@@ -10,8 +10,8 @@ const Queen = {
 		{row:  1, col: -1}
 	],
 
-	init(row, col, alliance) {
-		this.parent(row, col, PieceType.QUEEN, alliance, arguments)
+	init: function(row, col, alliance, isFirstMove) {
+		this.parent(row, col, PieceType.QUEEN, alliance, isFirstMove, arguments)
 	}
 }
 

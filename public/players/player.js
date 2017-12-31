@@ -1,5 +1,5 @@
 const Player = {
-	init(game, alliance) {
+	init: function(game, alliance) {
 		this.game = game
 		this.alliance = alliance
 	}

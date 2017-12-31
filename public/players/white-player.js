@@ -1,5 +1,5 @@
 const WhitePlayer = {
-	init(game) {
+	init: function(game) {
 		this.parent(game, Alliance.WHITE, arguments)
 	}
 }

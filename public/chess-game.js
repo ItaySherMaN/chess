@@ -1,5 +1,5 @@
 const ChessGame = {
-	init() {
+	init: function() {
 		this.board = Board.standardBoardLayout
 
 		this.whitePlayer = WhitePlayer.create(this)

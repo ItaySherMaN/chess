@@ -6,8 +6,8 @@ const Bishop = {
 		{row:  1, col: -1}
 	],
 
-	init(row, col, alliance) {
-		this.parent(row, col, PieceType.BISHOP, alliance, arguments)
+	init: function(row, col, alliance, isFirstMove) {
+		this.parent(row, col, PieceType.BISHOP, alliance, isFirstMove, arguments)
 	}
 }
 

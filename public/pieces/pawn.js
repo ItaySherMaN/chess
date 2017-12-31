@@ -5,12 +5,18 @@ const Pawn = {
 		{row: 1, col: -1}
 	],
 
-	init(row, col, alliance) {
-		this.parent(row, col, PieceType.PAWN, alliance, arguments)
-		this.isFirstMove = true
+	init: function(row, col, alliance, isFirstMove) {
+		this.parent(row, col, PieceType.PAWN, alliance, isFirstMove, arguments)
 	},
 
-	pseudoLegalMoves(board) {
+	isOnStartingRow: function() {
+		if (this.alliance === Alliance.WHITE) {
+			return this.row === 1
+		}
+		return this.row === 6
+	},
+
+	pseudoLegalMoves: function(board) {
 		const moves = []
 		const dir = Alliance.direction(this.alliance)
 
@@ -25,24 +31,24 @@ const Pawn = {
 
 				if (destPiece) {
 					if (destPiece.alliance !== this.alliance) {
-						moves.push(AttackingMove.create(board, destRow, destCol, this, destPiece))
+						moves.push(PawnAttackingMove.create(board, this, destPiece, destRow, destCol))
 					}
 				}
 				else {
 					if (offset.col === 0) {
-						moves.push(RegularMove.create(board, destRow, destCol, this))
+						moves.push(PawnRegularMove.create(board, this, destRow, destCol))
 					}
 				}
 			}
 		})
 
-		if (this.isFirstMove && this.row === Alliance.startingPawnRow(this.alliance)) {
-			destRow = this.row + 2 * dir
+		if (this.isFirstMove && this.isOnStartingRow()) {
+			destRow = this.row + dir + dir
 			destCol = this.col
 
-			if (!board.get(destRow, destCol)) {
-				if (!board.get(destRow - dir, destCol)) {
-					moves.push(RegularMove.create(board, destRow, destCol, this))
+			if (board.get(destRow, destCol) === null) {
+				if (board.get(destRow - dir, destCol) === null) {
+					moves.push(PawnJumpMove.create(board, this, destRow, destCol))
 				}
 			}
 		}

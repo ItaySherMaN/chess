@@ -11,3 +11,7 @@ const board = BoardBuilder.standardBoardLayout
 console.log(board.whiteViewToString())
 
 console.log(board)
+
+board.legalMoves.forEach(move => {
+	console.log(move.execute(true).whiteViewToString())
+})
