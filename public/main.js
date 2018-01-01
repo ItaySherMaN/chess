@@ -1,17 +1,27 @@
-const canvas = document.getElementById('canvas')
-const g = canvas.getContext('2d')
-const width = canvas.width
-const height = canvas.height
+Cache.loadImages().then(() => {
 
-g.fillStyle = 'red'
-g.fillRect(0, 0, width, height)
+	const renderer = BoardRenderer.create(
+		BoardBuilder.standardBoardLayout, Alliance.WHITE
+	)
 
-const board = BoardBuilder.standardBoardLayout
+	function run() {
+		if (Math.random() < 0.1) {
+			if (renderer.board.inCheckmate || renderer.board.inStalemate) {
+				console.log(renderer.board.nextTurn(), 'won')
+				return
+			}
 
-console.log(board.whiteViewToString())
+			renderer.board =
+				renderer
+				.board
+				.legalMoves
+				[Math.random() * renderer.board.legalMoves.length | 0]
+				.execute(true)
+		}
 
-console.log(board)
+		renderer.render()
+		requestAnimationFrame(run)
+	}
 
-board.legalMoves.forEach(move => {
-	console.log(move.execute(true).whiteViewToString())
+	run()
 })

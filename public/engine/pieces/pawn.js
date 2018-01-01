@@ -1,6 +1,8 @@
 const Pawn = {
-	moveOffsets: [
-		{row: 1, col:  0},
+	moveOffset: {row: 1, col: 0},
+	jumpOffset: {row: 2, col: 0},
+
+	attackOffsets: [
 		{row: 1, col:  1},
 		{row: 1, col: -1}
 	],
@@ -22,28 +24,32 @@ const Pawn = {
 
 		let destRow, destCol
 
-		this.moveOffsets.forEach(offset => {
+		destRow = this.row + this.moveOffset.row * dir
+		destCol = this.col + this.moveOffset.col
+
+		if (utils.areValidCoordinates(destRow, destCol)) {
+			if (board.get(destRow, destCol) === null) {
+				moves.push(PawnRegularMove.create(board, this, destRow, destCol))
+			}
+		}
+
+		this.attackOffsets.forEach(offset => {
 			destRow = this.row + offset.row * dir
 			destCol = this.col + offset.col
 
 			if (utils.areValidCoordinates(destRow, destCol)) {
 				const destPiece = board.get(destRow, destCol)
 
-				if (destPiece) {
+				if (destPiece !== null) {
 					if (destPiece.alliance !== this.alliance) {
 						moves.push(PawnAttackingMove.create(board, this, destPiece, destRow, destCol))
-					}
-				}
-				else {
-					if (offset.col === 0) {
-						moves.push(PawnRegularMove.create(board, this, destRow, destCol))
 					}
 				}
 			}
 		})
 
 		if (this.isFirstMove && this.isOnStartingRow()) {
-			destRow = this.row + dir + dir
+			destRow = this.row + this.jumpOffset.row * dir
 			destCol = this.col
 
 			if (board.get(destRow, destCol) === null) {

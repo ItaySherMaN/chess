@@ -35,14 +35,8 @@ Object.prototype.instanceof = function(other) {
 	return this.__proto__.instanceof(other)
 }
 
-Object.prototype.properties = function() {
-	const properties = []
-
-	for (key in this) {
-		properties.push(key)
-	}
-
-	return properties
+Object.prototype.keys = function() {
+	return Object.keys(this)
 }
 
 Object.prototype.equals = function(other) {

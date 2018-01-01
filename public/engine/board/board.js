@@ -1,6 +1,7 @@
 const Board = {
 	init: function(builder, generateLegalMoves) {
 		this.turn = builder.turn
+		this.enPassantPawn = builder.enPassantPawn
 		this.grid = this.extractGrid(builder)
 
 		this.establishPieces(builder)
@@ -50,10 +51,10 @@ const Board = {
 	establishLegalMoves: function() {
 		this.legalMoves = this.pseudoLegalMoves.filter(move => {
 			if (move.isCastlingMove()) {
-				return !move.execute(false).pseudoLegalMoves.some(newMove => {
-					return move.pathVector.some(pos => {
-						pos.row === newMove.destRow &&
-						pos.col === newMove.destCol
+				return move.execute(false).pseudoLegalMoves.every(threat => {
+					return move.pathVector.every(pos => {
+						return pos.row !== threat.destRow
+							|| pos.col !== threat.destCol
 					})
 				})
 			}
