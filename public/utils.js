@@ -2,13 +2,16 @@ const utils = {
 	NUM_TILES: 64,
 	NUM_ROWS: 8,
 	NUM_COLS: 8,
+	NUM_ALLIANCES: 2,
+	NUM_PIECE_TYPES: 6,
+	NUM_PIECE_IDS: 12,
 
 	startingPawnRow: function(alliance) {
 		return alliance === this.WHITE ? 1 : 6
 	},
 
 	pawnDirection: function(alliance) {
-		return alliance === this.WHITE ? 1 : -1
+		return alliance === Alliance.WHITE ? 1 : -1
 	},
 
 	areValidCoordinates: function(row, col) {
@@ -33,15 +36,15 @@ const utils = {
 	},
 
 	pieceType: function(pieceID) {
-		return pieceID / 2
+		return pieceID / 2 | 0
 	},
 
 	alliance: function(pieceID) {
 		return pieceID % 2
-	}
+	},
 
 	loadImage: function(url) {
-		return new Promise(resolve => {
+		return new Promise((resolve, reject) => {
 			const image = new Image()
 
 			image.addEventListener('load', () => {
@@ -49,6 +52,6 @@ const utils = {
 			})
 
 			image.src = url
-		});
+		})
 	}
 }

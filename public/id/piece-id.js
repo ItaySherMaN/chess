@@ -20,5 +20,3 @@ const PieceID = {
 		)
 	})
 }
-
-console.log(PieceID.toString)

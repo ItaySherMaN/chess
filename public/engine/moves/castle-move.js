@@ -52,14 +52,14 @@ const CastleMove = {
 			builder.addPiece(piece)
 		})
 
-		builder.addPiece(Cache.getUsed(
+		builder.addPiece(Cache.getUsedPiece(
 			this.destRow,
 			this.destCol,
 			PieceType.KING,
 			this.movedPiece.alliance
 		))
 
-		builder.addPiece(Cache.getUsed(
+		builder.addPiece(Cache.getUsedPiece(
 			this.rookDestRow,
 			this.rookDestCol,
 			PieceType.ROOK,

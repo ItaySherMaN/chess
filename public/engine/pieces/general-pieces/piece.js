@@ -8,16 +8,17 @@ const Piece = {
 	},
 
 	toString: function() {
-		return this.alliance === Alliance.WHITE ? this.type : this.type.toLowerCase()
+		return this.alliance === Alliance.WHITE ? PieceType.toString[this.type] : PieceType.toString[this.type].toLowerCase()
 	},
 
 	hashCode: function(row, col, type, alliance, isFirstMove) {
-		return (
-			this.row + '' +
-			this.col + '' +
-			this.type + '' +
-			this.alliance + '' +
-			this.isFirstMove
-		)
+		let r = row
+
+		r = 8 * r + col
+		r = 6 * r + type
+		r = 2 * r + alliance
+		r = 2 * r + (isFirstMove ? 1 : 0)
+
+		return r
 	}
 }

@@ -23,7 +23,7 @@ const AttackingMove = {
 			}
 		})
 
-		builder.addPiece(Cache.getUsed(
+		builder.addPiece(Cache.getUsedPiece(
 			this.destRow,
 			this.destCol,
 			this.movedPiece.type,

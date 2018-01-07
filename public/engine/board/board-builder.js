@@ -17,34 +17,34 @@ const BoardBuilder = {
 
 	build: function(generateLegalMoves) {
 		return Board.create(this, generateLegalMoves)
+	},
+
+	establishStandardBoardLayout: function() {
+		const builder = BoardBuilder.create(Alliance.WHITE)
+
+		builder.addPiece(Cache.getNewPiece(0, 0, PieceType.ROOK  , Alliance.WHITE))
+		builder.addPiece(Cache.getNewPiece(0, 1, PieceType.KNIGHT, Alliance.WHITE))
+		builder.addPiece(Cache.getNewPiece(0, 2, PieceType.BISHOP, Alliance.WHITE))
+		builder.addPiece(Cache.getNewPiece(0, 3, PieceType.QUEEN , Alliance.WHITE))
+		builder.addPiece(Cache.getNewPiece(0, 4, PieceType.KING  , Alliance.WHITE))
+		builder.addPiece(Cache.getNewPiece(0, 5, PieceType.BISHOP, Alliance.WHITE))
+		builder.addPiece(Cache.getNewPiece(0, 6, PieceType.KNIGHT, Alliance.WHITE))
+		builder.addPiece(Cache.getNewPiece(0, 7, PieceType.ROOK  , Alliance.WHITE))
+
+		for (let i = 0; i < utils.NUM_COLS; i++) {
+			builder.addPiece(Cache.getNewPiece(1, i, PieceType.PAWN, Alliance.WHITE))
+			builder.addPiece(Cache.getNewPiece(6, i, PieceType.PAWN, Alliance.BLACK))
+		}
+
+		builder.addPiece(Cache.getNewPiece(7, 0, PieceType.ROOK  , Alliance.BLACK))
+		builder.addPiece(Cache.getNewPiece(7, 1, PieceType.KNIGHT, Alliance.BLACK))
+		builder.addPiece(Cache.getNewPiece(7, 2, PieceType.BISHOP, Alliance.BLACK))
+		builder.addPiece(Cache.getNewPiece(7, 3, PieceType.QUEEN , Alliance.BLACK))
+		builder.addPiece(Cache.getNewPiece(7, 4, PieceType.KING  , Alliance.BLACK))
+		builder.addPiece(Cache.getNewPiece(7, 5, PieceType.BISHOP, Alliance.BLACK))
+		builder.addPiece(Cache.getNewPiece(7, 6, PieceType.KNIGHT, Alliance.BLACK))
+		builder.addPiece(Cache.getNewPiece(7, 7, PieceType.ROOK  , Alliance.BLACK))
+
+		this.standardBoardLayout = builder.build(true)
 	}
 }
-
-BoardBuilder.standardBoardLayout = (function() {
-	const builder = BoardBuilder.create(Alliance.WHITE)
-
-	builder.addPiece(Cache.getNew(PieceType.ROOK  , Alliance.WHITE, 0, 0))
-	builder.addPiece(Cache.getNew(PieceType.KNIGHT, Alliance.WHITE, 0, 1))
-	builder.addPiece(Cache.getNew(PieceType.BISHOP, Alliance.WHITE, 0, 2))
-	builder.addPiece(Cache.getNew(PieceType.QUEEN , Alliance.WHITE, 0, 3))
-	builder.addPiece(Cache.getNew(PieceType.KING  , Alliance.WHITE, 0, 4))
-	builder.addPiece(Cache.getNew(PieceType.BISHOP, Alliance.WHITE, 0, 5))
-	builder.addPiece(Cache.getNew(PieceType.KNIGHT, Alliance.WHITE, 0, 6))
-	builder.addPiece(Cache.getNew(PieceType.ROOK  , Alliance.WHITE, 0, 7))
-
-	for (let i = 0; i < utils.NUM_COLS; i++) {
-		builder.addPiece(Cache.getNew(PieceType.PAWN, Alliance.WHITE, 1, i))
-		builder.addPiece(Cache.getNew(PieceType.PAWN, Alliance.BLACK, 6, i))
-	}
-
-	builder.addPiece(Cache.getNew(PieceType.ROOK  , Alliance.BLACK, 7, 0))
-	builder.addPiece(Cache.getNew(PieceType.KNIGHT, Alliance.BLACK, 7, 1))
-	builder.addPiece(Cache.getNew(PieceType.BISHOP, Alliance.BLACK, 7, 2))
-	builder.addPiece(Cache.getNew(PieceType.QUEEN , Alliance.BLACK, 7, 3))
-	builder.addPiece(Cache.getNew(PieceType.KING  , Alliance.BLACK, 7, 4))
-	builder.addPiece(Cache.getNew(PieceType.BISHOP, Alliance.BLACK, 7, 5))
-	builder.addPiece(Cache.getNew(PieceType.KNIGHT, Alliance.BLACK, 7, 6))
-	builder.addPiece(Cache.getNew(PieceType.ROOK  , Alliance.BLACK, 7, 7))
-
-	return builder.build(true)
-})()

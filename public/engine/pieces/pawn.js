@@ -27,7 +27,7 @@ const Pawn = {
 	// TODO: implement promotions!
 	pseudoLegalMoves: function(board) {
 		const moves = []
-		const dir = Alliance.pawnDirection(this.alliance)
+		const dir = utils.pawnDirection(this.alliance)
 
 		let destRow = this.row + this.moveOffset.row * dir
 		let destCol = this.col + this.moveOffset.col

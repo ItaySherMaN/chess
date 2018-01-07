@@ -16,7 +16,7 @@ const PawnJumpMove = {
 			builder.addPiece(piece)
 		})
 
-		const newPawn = Cache.getUsed(
+		const newPawn = Cache.getUsedPiece(
 			this.destRow,
 			this.destCol,
 			PieceType.PAWN,

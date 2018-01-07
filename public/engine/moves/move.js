@@ -27,7 +27,7 @@ const Move = {
 			builder.addPiece(piece)
 		})
 
-		builder.addPiece(Cache.getUsed(
+		builder.addPiece(Cache.getUsedPiece(
 			this.destRow,
 			this.destCol,
 			this.movedPiece.type,

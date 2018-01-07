@@ -7,5 +7,7 @@ const PieceType = {
 	KING: 5,
 
 	toString: ['p', 'n', 'b', 'r', 'q', 'k'],
-	prototype: [Pawn, Knight, Bishop, Rook, Queen, King]
+	prototype: function(pieceType) {
+		return [Pawn, Knight, Bishop, Rook, Queen, King][pieceType]
+	}
 }
