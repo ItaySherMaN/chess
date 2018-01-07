@@ -20,7 +20,7 @@ const QueensideCastleMove = {
 		)
 	},
 
-	toString() {
+	toString: function() {
 		return 'O-O-O'
 	}
 }

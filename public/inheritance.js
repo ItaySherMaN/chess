@@ -36,7 +36,9 @@ Object.prototype.instanceof = function(other) {
 }
 
 Object.prototype.keys = function() {
-	return Object.keys(this)
+	return Object.keys(this).filter(key => {
+		return key.__proto__ !== Function.prototype
+	})
 }
 
 Object.prototype.equals = function(other) {
@@ -48,7 +50,7 @@ Object.prototype.equals = function(other) {
 		return false
 	}
 
-	return this.properties().every(p => {
+	return this.keys().every(p => {
 		if (this[p] instanceof Object) {
 			return this[p].equals(other[p])
 		}

@@ -28,10 +28,10 @@ const Move = {
 		})
 
 		builder.addPiece(Cache.getUsed(
-			this.movedPiece.type,
-			this.movedPiece.alliance,
 			this.destRow,
-			this.destCol
+			this.destCol,
+			this.movedPiece.type,
+			this.movedPiece.alliance
 		))
 
 		return builder.build(generateLegalMoves)

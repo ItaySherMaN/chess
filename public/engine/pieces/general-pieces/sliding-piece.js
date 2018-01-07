@@ -14,7 +14,7 @@ const SlidingPiece = {
 				const destPiece = board.get(destRow, destCol)
 
 				if (destPiece) {
-					if (destPiece.alliance !== this.alliance) {
+					if (this.alliance !== destPiece.alliance) {
 						moves.push(AttackingMove.create(board, this, destPiece, destRow, destCol))
 					}
 					break

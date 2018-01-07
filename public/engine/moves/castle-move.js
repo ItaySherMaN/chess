@@ -53,17 +53,17 @@ const CastleMove = {
 		})
 
 		builder.addPiece(Cache.getUsed(
-			PieceType.KING,
-			this.movedPiece.alliance,
 			this.destRow,
-			this.destCol
+			this.destCol,
+			PieceType.KING,
+			this.movedPiece.alliance
 		))
 
 		builder.addPiece(Cache.getUsed(
-			PieceType.ROOK,
-			this.movedRook.alliance,
 			this.rookDestRow,
-			this.rookDestCol
+			this.rookDestCol,
+			PieceType.ROOK,
+			this.movedRook.alliance
 		))
 
 		return builder.build(generateLegalMoves)

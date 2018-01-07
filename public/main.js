@@ -1,25 +1,49 @@
+let renderer
+let space = false
+
 Cache.loadImages().then(() => {
 
-	const renderer = BoardRenderer.create(
+	renderer = BoardRenderer.create(
 		BoardBuilder.standardBoardLayout, Alliance.WHITE
 	)
 
+	canvas.addEventListener('mousedown', e => {
+		renderer.board =
+			renderer
+			.board
+			.legalMoves
+			[Math.random() * renderer.board.legalMoves.length | 0]
+			.execute(true)
+	})
+
+	document.body.addEventListener('keydown', e => {
+		if (e.keyCode === 32) {
+			space = !space
+		}
+	})
+
 	function run() {
-		if (Math.random() < 0.1) {
-			if (renderer.board.inCheckmate || renderer.board.inStalemate) {
-				console.log(renderer.board.nextTurn(), 'won')
-				return
+		for (let i = 0; i < 10; i++) {
+			if (renderer.board.inCheckmate) {
+				return console.log(renderer.board.nextTurn(), 'won')
 			}
 
-			renderer.board =
-				renderer
-				.board
-				.legalMoves
-				[Math.random() * renderer.board.legalMoves.length | 0]
-				.execute(true)
+			if (renderer.board.inStalemate) {
+				return console.log('stalemate -', renderer.board.turn, "can't move")
+			}
+
+			if (space) {
+				renderer.board =
+					renderer
+					.board
+					.legalMoves
+					[Math.random() * renderer.board.legalMoves.length | 0]
+					.execute(true)
+			}
+
+			renderer.render()
 		}
 
-		renderer.render()
 		requestAnimationFrame(run)
 	}
 

@@ -9,6 +9,6 @@ const ChessGUI = {
 	},
 
 	render: function(context) {
-
+		this.boardRenderer.render()
 	}
 }

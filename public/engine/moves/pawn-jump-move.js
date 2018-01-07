@@ -17,10 +17,10 @@ const PawnJumpMove = {
 		})
 
 		const newPawn = Cache.getUsed(
-			PieceType.PAWN,
-			this.movedPiece.alliance,
 			this.destRow,
-			this.destCol
+			this.destCol,
+			PieceType.PAWN,
+			this.movedPiece.alliance
 		)
 
 		builder.addPiece(newPawn)

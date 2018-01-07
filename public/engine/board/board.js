@@ -17,11 +17,23 @@ const Board = {
 			this.figureIfCanMove()
 			this.figureIfInCheckmate()
 			this.figureIfInStalemate()
+			this.figureIfInTie()
 		}
 		else {
 			this.establishOpponentKing()
 			this.figureIfOpponentInCheck()
 		}
+	},
+
+	createMove: function(initialRow, initialCol, destRow, destCol) {
+		return this.legalMoves.filter(move => {
+			const piece = move.movedPiece
+
+			return piece.row === initialRow
+				&& piece.col === initialCol
+				&& move.destRow === destRow
+				&& move.destCol === destCol
+		})[0]
 	},
 
 	nextTurn: function() {
@@ -84,6 +96,17 @@ const Board = {
 
 	figureIfInCheckmate: function() {
 		this.inCheckmate = !this.canMove && this.inCheck
+	},
+
+	figureIfInTie: function() {
+		// TODO: implement checking if tie
+
+		// 1. Insufficient material for checkmate
+		// 2. The same position appeared 3 times
+		// 3. More than 30 moves have passed since
+		//    one player was left with only a king
+
+		this.inTie = false
 	},
 
 	extractGrid: function(builder) {

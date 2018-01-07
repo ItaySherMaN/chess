@@ -1,9 +1,45 @@
 const BoardRenderer = {
 	TILE_WIDTH: width / 8,
-	WHITE_TILE_COLOR: 'rgb(200, 185, 120)',
-	BLACK_TILE_COLOR: 'rgb(120, 80, 35)',
+	TILE_COLOR = [
+		'rgb(200, 185, 120)',
+		'rgb(120, 80, 35)'
+	]
 
 	init: function(board, view) {
+		this.tiles = []
+
+		for (let i = 0; i < utils.NUM_ROWS; i++) {
+			for (let j = 0; j < utils.NUM_COLS; j++) {
+				const buffer = document.createElement('canvas')
+				const ctx = buffer.getContext('2d')
+				const w = buffer.width = BoardRenderer.TILE_WIDTH
+				const h = buffer.height = BoardRenderer.TILE_WIDTH
+
+				ctx.fillStyle = this.tileColor(i, j)
+				ctx.fillRect(0, 0, w, h)
+
+				this.tiles.push(buffer)
+			}
+		}
+		this.tiles = (
+			new Array(utils.NUM_TILES)
+			.fill(null)
+			.map((value, index) => {
+				const buffer = document.createElement('canvas')
+
+				buffer.width = BoardRenderer.TILE_WIDTH
+				buffer.height = BoardRenderer.TILE_WIDTH
+
+				buffer.
+
+				cvs.addEventListener('click', e => {
+
+				})
+
+				return cvs
+			})
+		)
+
 		this.board = board
 		this.view = view
 	},
@@ -24,22 +60,10 @@ const BoardRenderer = {
 		let y = row * w
 
 		if (this.view === Alliance.WHITE) {
-			x = width - col * w - w
 			y = height - row * w - w
+		}
 
-			context.fillStyle =
-				row % 2 === col % 2 ?
-					BoardRenderer.WHITE_TILE_COLOR
-				:
-					BoardRenderer.BLACK_TILE_COLOR
-		}
-		else {
-			context.fillStyle =
-				row % 2 !== col % 2 ?
-					BoardRenderer.WHITE_TILE_COLOR
-				:
-					BoardRenderer.BLACK_TILE_COLOR
-		}
+		context.fillStyle = this.tileColor(row, col)
 
 		context.fillRect(x, y, w, w)
 
